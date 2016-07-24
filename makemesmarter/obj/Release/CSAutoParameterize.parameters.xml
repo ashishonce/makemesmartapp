@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="makemesmarterContext-Web.config Connection String" description="makemesmarterContext Connection String used in web.config by the application to access the database." defaultValue="Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=makemesmarterContext-20160723214603; Integrated Security=True; MultipleActiveResultSets=True; AttachDbFilename=|DataDirectory|makemesmarterContext-20160723214603.mdf" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\ashkuma\\Documents\\makemesmarter\\makemesmarter\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='makemesmarterContext']/@connectionString" />
+  </parameter>
+</parameters>
