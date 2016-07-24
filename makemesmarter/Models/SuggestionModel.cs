@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using makemesmarter.Helpers;
+using System.Threading.Tasks;
 
 namespace makemesmarter.Models
 {
@@ -14,7 +15,7 @@ namespace makemesmarter.Models
 
     public static class SuggestionModel
     {
-        public static SuggestionData GetSuggestions(string queryString)
+        public static async Task<SuggestionData>  GetSuggestions(string queryString)
         {
             var suggestion = new SuggestionData();
 
@@ -45,11 +46,12 @@ namespace makemesmarter.Models
                 bingData = BingDataApis.GetData(extractedIntent, queryString);
             }
 
+            suggestion.replyMessage = bingData;
             // Call sentiment detector to get the score
-            var sentimentLevel = SentimentDetector.GetSentiment(queryString);
+            var sentimentLevel = await SentimentDetector.GetSentiment(queryString);
 
             // Call Mood calculator to get the appropriate strings
-            suggestion.nextSuggestedReply = MoodCalculator.getMoodString(sentimentLevel.Result);
+            suggestion.nextSuggestedReply = MoodCalculator.getMoodString(sentimentLevel);
 
             return suggestion;
         }

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using makemesmarter.Models;
+using System.Threading.Tasks;
 
 namespace makemesmarter.Controllers
 {
@@ -117,9 +118,9 @@ namespace makemesmarter.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult GetSuggestions(string id)
+        public async Task <ActionResult> GetSuggestions(string id)
         {
-            var data = SuggestionModel.GetSuggestions("hello");
+            var data = await SuggestionModel.GetSuggestions(id);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 

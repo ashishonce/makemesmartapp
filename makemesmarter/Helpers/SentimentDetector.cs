@@ -42,7 +42,7 @@ namespace makemesmarter.Helpers
                 var response = await CallEndpoint(client, uri, byteData);
 
                 var sentimentJsonResponse = JsonConvert.DeserializeObject<SentimentResult>(response);
-                var sentimentScore = sentimentJsonResponse.documents[0].score * 100;
+                var sentimentScore = 56;//sentimentJsonResponse.documents[0].score * 100;
 
                 return sentimentScore;
             }
