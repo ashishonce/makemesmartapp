@@ -1,14 +1,14 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-    using System.IO;
-    using System.Linq;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
-    using System.Text;
-    using System.Web.Http;
+using System.Text;
+using System.Web.Http;
 using System.Web.Http.Description;
 using makemesmarter.Models;
 
@@ -102,6 +102,25 @@ namespace makemesmarter.Controllers
             return CreatedAtRoute("DefaultApi", new { id = user.UserId }, user);
         }
 
+        // POST: api/Users
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PostMessage(string UserId, string Message)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!UserExists(UserId))
+            {
+                return NotFound();
+            }
+
+            SendNotification(UserId, Message, 1);
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
         // DELETE: api/Users/5
         [ResponseType(typeof(User))]
         public IHttpActionResult DeleteUser(string id)
@@ -152,7 +171,7 @@ namespace makemesmarter.Controllers
             dataStream = webResponse.GetResponseStream();
             using (StreamReader streamReader = new StreamReader(dataStream))
             {
-                String sResponseFromServer = streamReader.ReadToEnd();
+                string sResponseFromServer = streamReader.ReadToEnd();
                 streamReader.Close();
                 dataStream.Close();
                 webResponse.Close();
