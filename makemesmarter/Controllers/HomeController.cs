@@ -104,6 +104,8 @@ namespace makemesmarter.Controllers
             return View(user);
         }
 
+
+
         // POST: Home/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -113,6 +115,12 @@ namespace makemesmarter.Controllers
             db.Users.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult GetSuggestions(string id)
+        {
+            var data = SuggestionModel.GetSuggestions(75, "hello");
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

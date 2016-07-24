@@ -198,12 +198,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\MoodCalculator.cs" />
     <Compile Include="Migrations\201607231619171_Initial.cs" />
     <Compile Include="Migrations\201607231619171_Initial.Designer.cs">
       <DependentUpon>201607231619171_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\makemesmarterContext.cs" />
+    <Compile Include="Models\SuggestionModel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
