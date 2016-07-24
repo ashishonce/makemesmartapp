@@ -119,7 +119,7 @@ namespace makemesmarter.Controllers
 
         public ActionResult GetSuggestions(string id)
         {
-            var data = SuggestionModel.GetSuggestions(75, "hello");
+            var data = SuggestionModel.GetSuggestions("hello");
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 

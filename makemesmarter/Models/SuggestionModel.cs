@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using makemesmarter.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace makemesmarter.Models
 {
@@ -20,10 +12,9 @@ namespace makemesmarter.Models
         public string nextSuggestedReply;
     }
 
-
     public static class SuggestionModel
     {
-        public static SuggestionData GetSuggestions(int? moods, string queryString)
+        public static SuggestionData GetSuggestions(string queryString)
         {
             var suggestion = new SuggestionData();
 
@@ -38,14 +29,29 @@ namespace makemesmarter.Models
                 suggestion.userMessage = queryString;
             }
 
-            // here i call LUIS  / ANYTHING
+            // here i call LUIS/ANYTHING to populate the intent so that we decide how to proceed
+            var extractedIntent = Constants.Intents.CHITCHAT;
+            IList<string> keyPhrases = null;
+            string bingData = string.Empty;
 
-            suggestion.nextSuggestedReply = MoodCalculator.getMoodString((float)moods);
-            // result 
+            // Call keyphrases if the intent is OTHERS
+            if (extractedIntent == Constants.Intents.OTHERS)
+            {
+                keyPhrases = KeyPhrases.GetKeyPhrases(queryString).Result;
+
+            }
+            else
+            {
+                bingData = BingDataApis.GetData(extractedIntent, queryString);
+            }
+
+            // Call sentiment detector to get the score
+            var sentimentLevel = SentimentDetector.GetSentiment(queryString);
+
+            // Call Mood calculator to get the appropriate strings
+            suggestion.nextSuggestedReply = MoodCalculator.getMoodString(sentimentLevel.Result);
 
             return suggestion;
         }
-
-
     }
 }

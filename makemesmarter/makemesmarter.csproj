@@ -198,7 +198,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\BingDataApis.cs" />
+    <Compile Include="Helpers\ChitChat.cs" />
+    <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\KeyPhrases.cs" />
     <Compile Include="Helpers\MoodCalculator.cs" />
+    <Compile Include="Helpers\SentimentDetector.cs" />
     <Compile Include="Migrations\201607231619171_Initial.cs" />
     <Compile Include="Migrations\201607231619171_Initial.Designer.cs">
       <DependentUpon>201607231619171_Initial.cs</DependentUpon>
