@@ -5,46 +5,34 @@ using System.Web;
 
 namespace makemesmarter.Helpers
 {
-    enum PossibleMoods
-    {
-        GRIEF,
-        SAD,
-        AWFULL,
-        NONE,
-        NEUTRAL,
-        HAPPY,
-        VERYHAPPY,
-        JUBLIENT,
-    }
-
     public static class MoodCalculator
     {
-       public static string getMoodString(float moodvalue)
+       public static string getMoodString(double moodvalue)
         {
             var floatindex = (int)moodvalue / 10;
-            var possibleMood = (PossibleMoods)floatindex;
+            var possibleMood = (Constants.PossibleMoods)floatindex;
             return GetNextMessageString(possibleMood);
         }
 
-        private static string GetNextMessageString(PossibleMoods mood)
+        private static string GetNextMessageString(Constants.PossibleMoods mood)
         {
             switch (mood)
             {
-                case PossibleMoods.SAD:
+                case Constants.PossibleMoods.SAD:
                     return "SORRY TO HEAR THAT";
-                case PossibleMoods.GRIEF:
+                case Constants.PossibleMoods.GRIEF:
                     return "Oh my god ! that's terrible ";
-                case PossibleMoods.AWFULL:
+                case Constants.PossibleMoods.AWFULL:
                     return "That's awfull";
-                case PossibleMoods.NONE:
+                case Constants.PossibleMoods.NONE:
                     return "OK !!";
-                case PossibleMoods.NEUTRAL:
+                case Constants.PossibleMoods.NEUTRAL:
                     return "OK..";
-                case PossibleMoods.HAPPY:
+                case Constants.PossibleMoods.HAPPY:
                     return "Great!!!!";
-                case PossibleMoods.VERYHAPPY:
+                case Constants.PossibleMoods.VERYHAPPY:
                     return "AWESOME !!!";
-                case PossibleMoods.JUBLIENT:
+                case Constants.PossibleMoods.JUBLIENT:
                     return "I am on heaven!!! party!!!";
             }
 
