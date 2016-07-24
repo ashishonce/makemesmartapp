@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Linq;
+    using System.IO;
+    using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
+    using System.Text;
+    using System.Web.Http;
 using System.Web.Http.Description;
 using makemesmarter.Models;
 
@@ -128,6 +130,33 @@ namespace makemesmarter.Controllers
         private bool UserExists(string id)
         {
             return db.Users.Count(e => e.UserId == id) > 0;
+        }
+
+        public void SendNotification(string clientID, string message, int badgeCount)
+        {
+            var GoogleAppID = "AIzaSyDxPQm7K6XCtwXPyDDgeOhmgbzdzxoedD4";
+            var SenderID = "24788899907";
+
+            WebRequest gcmSendRequest = WebRequest.Create("https://android.googleapis.com/gcm/send");
+            gcmSendRequest.Method = "post";
+            gcmSendRequest.Headers.Add(string.Format("Authorization: key={0}", GoogleAppID));
+            gcmSendRequest.Headers.Add(string.Format("Sender: id={0}", SenderID));
+
+            string postData = string.Format("collapse_key=score_update&time_to_live=108&delay_while_idle=1&data.message={0} &data.time={1} &data.badge={3} &data.sound={4}&registration_id={2}", message, DateTime.UtcNow, clientID, badgeCount, "default");
+            Byte[] byteArray = Encoding.ASCII.GetBytes(postData);
+            gcmSendRequest.ContentLength = byteArray.Length;
+            Stream dataStream = gcmSendRequest.GetRequestStream();
+            dataStream.Write(byteArray, 0, byteArray.Length);
+            dataStream.Close();
+            WebResponse webResponse = gcmSendRequest.GetResponse();
+            dataStream = webResponse.GetResponseStream();
+            using (StreamReader streamReader = new StreamReader(dataStream))
+            {
+                String sResponseFromServer = streamReader.ReadToEnd();
+                streamReader.Close();
+                dataStream.Close();
+                webResponse.Close();
+            }
         }
     }
 }
