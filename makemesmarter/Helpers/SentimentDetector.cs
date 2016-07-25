@@ -9,16 +9,16 @@ using Newtonsoft.Json;
 namespace makemesmarter.Helpers
 {
     // Classes to store the result from the sentiment analysis
-    internal class SentimentResult
+    public class SentimentResult
     {
-        internal List<SentimentResultDocument> documents { get; set; }
+        public List<SentimentResultDocument> documents { get; set; }
     }
 
-    internal class SentimentResultDocument
+    public class SentimentResultDocument
     {
-        internal double score { get; set; }
+        public double score { get; set; }
 
-        internal string id { get; set; }
+        public string id { get; set; }
     }
 
     public class SentimentDetector
@@ -34,15 +34,14 @@ namespace makemesmarter.Helpers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // Request body. Insert your text data here in JSON format.
-                byte[] byteData = Encoding.UTF8.GetBytes("{\"documents\":[" +
-                    "{\"id\":\"1\",\"text\":\"" + query + "\"},]}");
+                byte[] byteData = Encoding.UTF8.GetBytes("{\"documents\":[" + "{\"id\":\"1\",\"text\":\"" + query + "\"},]}");
 
                 // Detect sentiment:
                 var uri = "text/analytics/v2.0/sentiment";
                 var response = await CallEndpoint(client, uri, byteData);
 
                 var sentimentJsonResponse = JsonConvert.DeserializeObject<SentimentResult>(response);
-                var sentimentScore = 56;//sentimentJsonResponse.documents[0].score * 100;
+                var sentimentScore = sentimentJsonResponse.documents[0].score * 100;
 
                 return sentimentScore;
             }
