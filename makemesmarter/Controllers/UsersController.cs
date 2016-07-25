@@ -116,7 +116,9 @@ namespace makemesmarter.Controllers
                 return NotFound();
             }
 
-            SendNotification(UserId, Message, 1);
+            var user =  db.Users.Find(UserId);
+
+            SendNotification(user.Token, Message, 1);
 
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -151,7 +153,7 @@ namespace makemesmarter.Controllers
             return db.Users.Count(e => e.UserId == id) > 0;
         }
 
-        public void SendNotification(string clientID, string message, int badgeCount)
+        public void SendNotification(string clientToken, string message, int badgeCount)
         {
             var GoogleAppID = "AIzaSyDxPQm7K6XCtwXPyDDgeOhmgbzdzxoedD4";
             var SenderID = "24788899907";
@@ -161,7 +163,7 @@ namespace makemesmarter.Controllers
             gcmSendRequest.Headers.Add(string.Format("Authorization: key={0}", GoogleAppID));
             gcmSendRequest.Headers.Add(string.Format("Sender: id={0}", SenderID));
 
-            string postData = string.Format("collapse_key=score_update&time_to_live=108&delay_while_idle=1&data.message={0} &data.time={1} &data.badge={3} &data.sound={4}&registration_id={2}", message, DateTime.UtcNow, clientID, badgeCount, "default");
+            string postData = string.Format("collapse_key=score_update&time_to_live=108&delay_while_idle=1&data.message={0} &data.time={1} &data.badge={3} &data.sound={4}&registration_id={2}", message, DateTime.UtcNow, clientToken, badgeCount, "default");
             Byte[] byteArray = Encoding.ASCII.GetBytes(postData);
             gcmSendRequest.ContentLength = byteArray.Length;
             Stream dataStream = gcmSendRequest.GetRequestStream();
