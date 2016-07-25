@@ -23,6 +23,10 @@
             PLACE,
             NEWS,
             MOVIES,
+            Sports,
+            FindInfo,
+            Translation,
+            Weather,
             OTHERS
         }
 
