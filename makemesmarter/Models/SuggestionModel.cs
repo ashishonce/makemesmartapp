@@ -5,10 +5,15 @@ using makemesmarter.Helpers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Web.Mvc;
+using makemesmarter.Models;
+using Newtonsoft.Json;
+
 
 namespace makemesmarter.Models
 {
-    public class SuggestionData
+    [Serializable]
+    public class SuggestionData: object
     {
         public bool resultValid;
         public string userMessage;
@@ -19,7 +24,7 @@ namespace makemesmarter.Models
 
     public static class SuggestionModel
     {
-        public static async Task<SuggestionData>  GetSuggestions(string queryString)
+        public static async Task<string>  GetSuggestions(string queryString)
         {
             var suggestion = new SuggestionData();
 
@@ -80,7 +85,7 @@ namespace makemesmarter.Models
             // Call Mood calculator to get the appropriate strings
             suggestion.nextSuggestedReply = MoodCalculator.getMoodString(sentimentLevel);
 
-            return suggestion;
+            return JsonConvert.SerializeObject(suggestion); 
         }
 
         private static Constants.Intents GetIntent(string intent)
