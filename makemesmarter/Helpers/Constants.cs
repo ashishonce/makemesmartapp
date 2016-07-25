@@ -12,9 +12,13 @@
 
         public const string CortanaUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; Trident/7.0; Touch; rv:11.0; Cortana 1.6.1.52; 10.0.0.0.10586.21) like Gecko";
 
-        public const string BingDataApiUrl = "https://www.bingapis.com/api/v5/search?q={0}&appid={1}";
+        public const string BingDataApiBaseUrl = "https://www.bingapis.com/";
+
+        public const string BingDataApiUrl = "api/v5/search?q={0}&appid={1}";
 
         public const string BingDataApiAppID = "FA15B041D8404F934D4866D461005AE5159F0A90";
+
+        public const string LUISUrlFormat = "https://api.projectoxford.ai/luis/v1/application?id=30aa83c1-7760-4a7d-84db-fd9a31a451ed&subscription-key=af79ebce73804e53b12f797a6cfc3909&q={0}";
 
         public enum Intents
         {
@@ -23,10 +27,10 @@
             PLACE,
             NEWS,
             MOVIES,
-            Sports,
-            FindInfo,
-            Translation,
-            Weather,
+            SPORTS,
+            FINDINFO,
+            TRANSLATION,
+            WEATHER,
             OTHERS
         }
 

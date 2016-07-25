@@ -13,7 +13,7 @@ namespace makemesmarter.Models
         public bool resultValid;
         public string userMessage;
         public string replyMessage;
-        public int userMood;
+        public double userMood;
         public string nextSuggestedReply;
     }
 
@@ -34,48 +34,39 @@ namespace makemesmarter.Models
                 suggestion.userMessage = queryString;
             }
 
-            // here i call LUIS/ANYTHING to populate the intent so that we decide how to proceed
-            var url = "https://api.projectoxford.ai/luis/v1/application?id=30aa83c1-7760-4a7d-84db-fd9a31a451ed&subscription-key=af79ebce73804e53b12f797a6cfc3909&q={0}";
-            url = string.Format(url, queryString);
+            // Call Luis to get the intent and entities for a given query
+            var luisUrl = string.Format(Constants.LUISUrlFormat, queryString);
+
             string intent = string.Empty;
-            IList<string> Entities = new List<string>();
+            IList<string> entities = new List<string>();
             using (WebClient wc = new WebClient())
             {
-                var json = wc.DownloadString(url);
+                var json = wc.DownloadString(luisUrl);
                 JObject jsonObject = JObject.Parse(json);
                 foreach (var entity in jsonObject["entities"])
                 {
-                    Entities.Add(entity["entity"].ToString());
+                    entities.Add(entity["entity"].ToString());
                 }
 
                 intent = (jsonObject["intents"][0])["intent"].ToString();
             }
 
-            var extractedIntent = GetIntent(intent);
-            IList<string> keyPhrases = null;
+            var extractedIntent = GetIntent(intent);            
             string bingData = string.Empty;
 
-            if (Entities.Count > 0)
+            // Even after calling Luis if the entities are empty, call keyphrases api to get key phrases
+            if (entities.Count == 0)
             {
-                foreach (var entity in Entities)
-                {
-                    keyPhrases.Add(entity);
-                }
+                entities = await KeyPhrases.GetKeyPhrases(queryString);
             }
 
-            // Call keyphrases if the intent is OTHERS
-            if (Entities.Count == 0)
-            {
-                keyPhrases = KeyPhrases.GetKeyPhrases(queryString).Result;
-            }
-            else
-            {
-                bingData = BingDataApis.GetData(extractedIntent, queryString);
-            }
+            var modifiedQuery = entities != null && entities.Count > 0 && !string.IsNullOrWhiteSpace(entities[0]) ? entities[0] : queryString;
+            bingData = await BingDataApis.GetData(extractedIntent, queryString);
+            suggestion.replyMessage = bingData;            
 
-            suggestion.replyMessage = bingData;
             // Call sentiment detector to get the score
             var sentimentLevel = await SentimentDetector.GetSentiment(queryString);
+            suggestion.userMood = sentimentLevel;
 
             // Call Mood calculator to get the appropriate strings
             suggestion.nextSuggestedReply = MoodCalculator.getMoodString(sentimentLevel);
@@ -88,10 +79,10 @@ namespace makemesmarter.Models
             switch(intent)
             {
                 case "Sports":
-                    return Constants.Intents.Sports;
+                    return Constants.Intents.SPORTS;
                     
                 case "Find information":
-                    return Constants.Intents.FindInfo;
+                    return Constants.Intents.FINDINFO;
                     
                 case "Movies":
                     return Constants.Intents.MOVIES;
@@ -103,17 +94,17 @@ namespace makemesmarter.Models
                     return Constants.Intents.NEWS;
                     
                 case "Translation":
-                    return Constants.Intents.Translation;
+                    return Constants.Intents.TRANSLATION;
     
                 case "Weather":
-                    return Constants.Intents.Weather;
+                    return Constants.Intents.WEATHER;
                     
                 case "None":
                     return Constants.Intents.OTHERS;
-                    
-            }
 
-            return Constants.Intents.OTHERS;
+                default:
+                    return Constants.Intents.OTHERS;
+            }            
         }
     }
 }
