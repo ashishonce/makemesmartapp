@@ -15,6 +15,7 @@ namespace makemesmarter.Helpers
                     return await Movies.GetMoviesResult(query);
                 case QueryIntent.NEWS:
                     return await News.GetNewsResult(query);
+                case QueryIntent.SPORTS:
                 case QueryIntent.FINDINFO:
                     return await Entity.GetEntityResult(query);
             }

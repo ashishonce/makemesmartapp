@@ -17,9 +17,17 @@ namespace makemesmarter.Helpers
                 var response = await CallEndpoint(client, entityUrl);
 
                 var entityJsonResponse = JsonConvert.DeserializeObject<CommonSchemas.EntitiesApiResult>(response);
-                var entityDescription = entityJsonResponse.entities.value[0].description;
 
-                return entityDescription;
+                if (entityJsonResponse != null 
+                    && entityJsonResponse.entities != null 
+                    && entityJsonResponse.entities.value != null 
+                    && entityJsonResponse.entities.value.Count > 0 
+                    && !string.IsNullOrWhiteSpace(entityJsonResponse.entities.value[0].description))
+                {
+                    return entityJsonResponse.entities.value[0].description;
+                }
+
+                return null;
             }
         }
 
@@ -27,40 +35,6 @@ namespace makemesmarter.Helpers
         {
             var response = await client.GetAsync(uri);
             return await response.Content.ReadAsStringAsync();
-        }
-
-        private static string GetRating(CommonSchemas.EntityResultValue movieEntity)
-        {
-            string movieFacts = string.Empty;
-
-            if (movieEntity.aggregateRating != null)
-            {
-                movieFacts = "AggregateRating: " + movieEntity.aggregateRating.ratingValue + "/" + movieEntity.aggregateRating.bestRating;
-                return movieFacts;
-            }
-
-            if (movieEntity.entityPresentationInfo.formattedFacts == null || movieEntity.entityPresentationInfo.formattedFacts.Count == 0)
-            {
-                return null;
-            }
-
-            foreach (var formattedFact in movieEntity.entityPresentationInfo.formattedFacts)
-            {
-                if (string.IsNullOrWhiteSpace(formattedFact.label) || formattedFact.label == "Summary")
-                {
-                    foreach (var item in formattedFact.items)
-                    {
-                        if (!string.IsNullOrWhiteSpace(movieFacts))
-                        {
-                            movieFacts += " ";
-                        }
-
-                        movieFacts += item.text;
-                    }
-                }
-            }
-
-            return movieFacts;
         }
     }
 }

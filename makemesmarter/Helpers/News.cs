@@ -71,9 +71,17 @@ namespace makemesmarter.Helpers
                 var response = await CallEndpoint(client, newsUrl);
 
                 var newsJsonResponse = JsonConvert.DeserializeObject<NewsApiResult>(response);
-                var newsDescription = newsJsonResponse.news.value[0].description;
 
-                return newsDescription;
+                if (newsJsonResponse != null
+                    && newsJsonResponse.news != null
+                    && newsJsonResponse.news.value != null
+                    && newsJsonResponse.news.value.Count > 0
+                    && !string.IsNullOrWhiteSpace(newsJsonResponse.news.value[0].description))
+                {
+                    return newsJsonResponse.news.value[0].description;
+                }
+
+                return null;
             }
         }
 

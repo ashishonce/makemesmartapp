@@ -105,8 +105,6 @@ namespace makemesmarter.Controllers
             return View(user);
         }
 
-
-
         // POST: Home/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

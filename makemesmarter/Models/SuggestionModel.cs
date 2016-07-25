@@ -1,20 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using makemesmarter.Helpers;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace makemesmarter.Models
 {
     public class SuggestionData
+    {        
+        public string userMessage { get; set; }
+
+        public double userMoodPercentage { get; set; }
+
+        public bool isValid { get; set; }
+
+        public IList<QueryEntity> queryEntities { get; set; }
+    }
+
+    public class QueryEntity
     {
-        public bool resultValid;
-        public string userMessage;
-        public string replyMessage;
-        public double userMood;
-        public string nextSuggestedReply;
+        public string entityName { get; set; }
+
+        public string fullBingData { get; set; }
+
+        public string suggestedReply { get; set; }
     }
 
     public static class SuggestionModel
@@ -22,23 +32,53 @@ namespace makemesmarter.Models
         public static async Task<SuggestionData>  GetSuggestions(string queryString)
         {
             var suggestion = new SuggestionData();
-
+            
+            // No op when there is no query string
             if (string.IsNullOrWhiteSpace(queryString))
             {
-                // add the business logic here 
-                suggestion.replyMessage = "EMPTY";
-                suggestion.resultValid = false;
-            }
-            else
-            {
-                suggestion.userMessage = queryString;
+                suggestion.isValid = false;
+                return suggestion;
             }
 
+            suggestion.userMessage = queryString;
+            suggestion.userMoodPercentage = await SentimentDetector.GetSentiment(queryString);
+
+            IList<string> entities = new List<string>();
+            var extractedIntent = GetLUISIntent(queryString, entities);
+
+            if (extractedIntent == Constants.Intents.CHITCHAT)
+            {
+                entities = new List<string>() { queryString };
+            }
+
+            // Even after calling Luis if the entities are empty, call keyphrases api to get key phrases
+            if (entities.Count == 0)
+            {
+                entities = await KeyPhrases.GetKeyPhrases(queryString);
+            }
+
+            // Extract distinct entities
+            entities = entities.Distinct().ToList();
+            suggestion.queryEntities = new List<QueryEntity>();
+            foreach (var entity in entities)
+            {
+                var queryEntity = new QueryEntity();
+                queryEntity.entityName = entity;
+                queryEntity.fullBingData = await BingDataApis.GetData(extractedIntent, entity);
+                queryEntity.suggestedReply = MoodCalculator.getMoodString(suggestion.userMoodPercentage);
+
+                suggestion.queryEntities.Add(queryEntity);
+            }
+
+            suggestion.isValid = true;
+            return suggestion;
+        }
+
+        private static Constants.Intents GetLUISIntent(string queryString, IList<string> entities)
+        {
             // Call Luis to get the intent and entities for a given query
             var luisUrl = string.Format(Constants.LUISUrlFormat, queryString);
-
             string intent = string.Empty;
-            IList<string> entities = new List<string>();
             using (WebClient wc = new WebClient())
             {
                 var json = wc.DownloadString(luisUrl);
@@ -51,32 +91,7 @@ namespace makemesmarter.Models
                 intent = (jsonObject["intents"][0])["intent"].ToString();
             }
 
-            var extractedIntent = GetIntent(intent);            
-            string bingData = string.Empty;
-
-            // Even after calling Luis if the entities are empty, call keyphrases api to get key phrases
-            if (entities.Count == 0)
-            {
-                entities = await KeyPhrases.GetKeyPhrases(queryString);
-            }
-
-            var modifiedQuery = entities != null && entities.Count > 0 && !string.IsNullOrWhiteSpace(entities[0]) ? entities[0] : queryString;
-            bingData = await BingDataApis.GetData(extractedIntent, queryString);
-            suggestion.replyMessage = bingData;            
-
-            // Call sentiment detector to get the score
-            var sentimentLevel = await SentimentDetector.GetSentiment(queryString);
-            suggestion.userMood = sentimentLevel;
-
-            // Call Mood calculator to get the appropriate strings
-            suggestion.nextSuggestedReply = MoodCalculator.getMoodString(sentimentLevel);
-
-            return suggestion;
-        }
-
-        private static Constants.Intents GetIntent(string intent)
-        {
-            switch(intent)
+            switch (intent)
             {
                 case "Sports":
                     return Constants.Intents.SPORTS;
