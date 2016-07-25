@@ -11,8 +11,9 @@ namespace makemesmarter.Migrations
                 "dbo.Users",
                 c => new
                     {
-                        UserId = c.String(nullable: false, maxLength: 128),
+                        UserId = c.String(nullable: false, maxLength: 200),
                         Name = c.String(),
+                        Token = c.String(),
                     })
                 .PrimaryKey(t => t.UserId);
             
