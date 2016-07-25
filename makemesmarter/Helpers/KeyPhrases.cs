@@ -9,16 +9,16 @@ using Newtonsoft.Json;
 namespace makemesmarter.Helpers
 {
     // Classes to store the key phrases through text analysis
-    internal class KeyPhrasesResult
+    public class KeyPhrasesResult
     {
-        internal List<KeyPhrasesResultDocument> documents { get; set; }
+        public List<KeyPhrasesResultDocument> documents { get; set; }
     }
 
-    internal class KeyPhrasesResultDocument
+    public class KeyPhrasesResultDocument
     {
-        internal List<string> keyPhrases { get; set; }
+        public List<string> keyPhrases { get; set; }
 
-        internal string id { get; set; }
+        public string id { get; set; }
     }
 
     public class KeyPhrases
