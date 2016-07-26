@@ -115,7 +115,7 @@ namespace makemesmarter.Controllers
                 var newUser = db.Users.Find(user.UserId);
                 var data = await SuggestionModel.GetSuggestions(user.Name);
                 
-                var responseCODE = SendGCMNotification(newUser.Token, data);
+                var responseCODE = SendGCMNotification(newUser.Token, "dummy data");
                 return StatusCode(responseCODE);
             }
 

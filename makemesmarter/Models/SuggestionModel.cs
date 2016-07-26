@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using makemesmarter.Helpers;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Web.Mvc;
 using makemesmarter.Models;
@@ -12,91 +11,97 @@ using Newtonsoft.Json;
 
 namespace makemesmarter.Models
 {
-    [Serializable]
-    public class SuggestionData: object
+    public class SuggestionData
+    {        
+        public string userMessage { get; set; }
+
+        public double userMoodPercentage { get; set; }
+
+        public bool isValid { get; set; }
+
+        public IList<QueryEntity> queryEntities { get; set; }
+    }
+
+    public class QueryEntity
+
     {
-        public bool resultValid;
-        public string userMessage;
-        public string replyMessage;
-        public int userMood;
-        public string nextSuggestedReply;
+        public string entityName { get; set; }
+
+        public string fullBingData { get; set; }
+
+        public string suggestedReply { get; set; }
     }
 
     public static class SuggestionModel
     {
-        public static async Task<string>  GetSuggestions(string queryString)
+        public static async Task<SuggestionData>  GetSuggestions(string queryString)
         {
             var suggestion = new SuggestionData();
-
+            
+            // No op when there is no query string
             if (string.IsNullOrWhiteSpace(queryString))
             {
-                // add the business logic here 
-                suggestion.replyMessage = "EMPTY";
-                suggestion.resultValid = false;
-            }
-            else
-            {
-                suggestion.userMessage = queryString;
+                suggestion.isValid = false;
+                return suggestion;
             }
 
-            // here i call LUIS/ANYTHING to populate the intent so that we decide how to proceed
-            var url = "https://api.projectoxford.ai/luis/v1/application?id=30aa83c1-7760-4a7d-84db-fd9a31a451ed&subscription-key=af79ebce73804e53b12f797a6cfc3909&q={0}";
-            url = string.Format(url, queryString);
+            suggestion.userMessage = queryString;
+            suggestion.userMoodPercentage = await SentimentDetector.GetSentiment(queryString);
+
+            IList<string> entities = new List<string>();
+            var extractedIntent = GetLUISIntent(queryString, entities);
+
+            if (extractedIntent == Constants.Intents.CHITCHAT)
+            {
+                entities = new List<string>() { queryString };
+            }
+
+            // Even after calling Luis if the entities are empty, call keyphrases api to get key phrases
+            if (entities.Count == 0)
+            {
+                entities = await KeyPhrases.GetKeyPhrases(queryString);
+            }
+
+            // Extract distinct entities
+            entities = entities.Distinct().ToList();
+            suggestion.queryEntities = new List<QueryEntity>();
+            foreach (var entity in entities)
+            {
+                var queryEntity = new QueryEntity();
+                queryEntity.entityName = entity;
+                queryEntity.fullBingData = await BingDataApis.GetData(extractedIntent, entity);
+                queryEntity.suggestedReply = MoodCalculator.getMoodString(suggestion.userMoodPercentage);
+
+                suggestion.queryEntities.Add(queryEntity);
+            }
+
+            return suggestion; 
+        }
+
+        private static Constants.Intents GetLUISIntent(string queryString, IList<string> entities)
+        {
+            // Call Luis to get the intent and entities for a given query
+            var luisUrl = string.Format(Constants.LUISUrlFormat, queryString);
             string intent = string.Empty;
-            IList<string> Entities = new List<string>();
             using (WebClient wc = new WebClient())
             {
-                var json = wc.DownloadString(url);
+                var json = wc.DownloadString(luisUrl);
                 JObject jsonObject = JObject.Parse(json);
                 foreach (var entity in jsonObject["entities"])
                 {
-                    Entities.Add(entity["entity"].ToString());
+                    entities.Add(entity["entity"].ToString());
                 }
 
                 intent = (jsonObject["intents"][0])["intent"].ToString();
             }
 
-            var extractedIntent = GetIntent(intent);
-            IList<string> keyPhrases = null;
-            string bingData = string.Empty;
-
-            if (Entities.Count > 0)
-            {
-                foreach (var entity in Entities)
-                {
-                    keyPhrases.Add(entity);
-                }
-            }
-
-            // Call keyphrases if the intent is OTHERS
-            if (Entities.Count == 0)
-            {
-                keyPhrases = KeyPhrases.GetKeyPhrases(queryString).Result;
-            }
-            else
-            {
-                bingData = BingDataApis.GetData(extractedIntent, queryString);
-            }
-
-            suggestion.replyMessage = bingData;
-            // Call sentiment detector to get the score
-            var sentimentLevel = await SentimentDetector.GetSentiment(queryString);
-
-            // Call Mood calculator to get the appropriate strings
-            suggestion.nextSuggestedReply = MoodCalculator.getMoodString(sentimentLevel);
-
-            return JsonConvert.SerializeObject(suggestion); 
-        }
-
-        private static Constants.Intents GetIntent(string intent)
-        {
-            switch(intent)
+            switch (intent)
             {
                 case "Sports":
-                    return Constants.Intents.Sports;
+                    return Constants.Intents.SPORTS;
                     
                 case "Find information":
-                    return Constants.Intents.FindInfo;
+                    return Constants.Intents.FINDINFO;
                     
                 case "Movies":
                     return Constants.Intents.MOVIES;
@@ -108,17 +113,17 @@ namespace makemesmarter.Models
                     return Constants.Intents.NEWS;
                     
                 case "Translation":
-                    return Constants.Intents.Translation;
+                    return Constants.Intents.TRANSLATION;
     
                 case "Weather":
-                    return Constants.Intents.Weather;
+                    return Constants.Intents.WEATHER;
                     
                 case "None":
                     return Constants.Intents.OTHERS;
-                    
-            }
 
-            return Constants.Intents.OTHERS;
+                default:
+                    return Constants.Intents.OTHERS;
+            }            
         }
     }
 }
