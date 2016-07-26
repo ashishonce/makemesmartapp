@@ -8,30 +8,21 @@ namespace makemesmarter.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Users",
-                c => new
-                    {
-                        UserId = c.String(nullable: false, maxLength: 200),
-                        Name = c.String(),
-                        Token = c.String(),
-                    })
-                .PrimaryKey(t => t.UserId);
-
-            CreateTable(
-                "dbo.Queries",
+                "dbo.QueryModels",
                 c => new
                 {
-                    Query = c.String(nullable: false, maxLength: 200),
+                    QueryId = c.Int(nullable: false, identity: true),
+                    Query = c.String(),
                     Reply = c.String(),
                 })
-                .PrimaryKey(t => t.Query);
-
+                .PrimaryKey(t => t.QueryId);
         }
-        
+            
+       
         public override void Down()
         {
             DropTable("dbo.Users");
-            DropTable("dbo.Queries");
+            DropTable("dbo.QueryModels");
         }
     }
 }
