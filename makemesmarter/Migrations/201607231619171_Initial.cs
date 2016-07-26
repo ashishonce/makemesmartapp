@@ -16,7 +16,15 @@ namespace makemesmarter.Migrations
                         Token = c.String(),
                     })
                 .PrimaryKey(t => t.UserId);
-            
+            CreateTable(
+                "dbo.QueryModel",
+                c => new
+                {
+                    Query = c.String(nullable: false, maxLength: 200),
+                    Reply = c.String(),
+                })
+                .PrimaryKey(t => t.Query);
+
         }
         
         public override void Down()

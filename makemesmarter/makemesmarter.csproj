@@ -216,6 +216,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\makemesmarterContext.cs" />
+    <Compile Include="Models\QueryModel.cs" />
     <Compile Include="Models\SuggestionModel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
