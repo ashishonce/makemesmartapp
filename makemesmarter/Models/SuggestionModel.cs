@@ -123,6 +123,9 @@ namespace makemesmarter.Models
                 case "None":
                     return Constants.Intents.OTHERS;
 
+                case "Command":
+                    return Constants.Intents.CONTACT;
+
                 default:
                     return Constants.Intents.OTHERS;
             }            
