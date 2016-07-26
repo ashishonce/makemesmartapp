@@ -16,6 +16,7 @@ namespace makemesmarter.Migrations
                         Token = c.String(),
                     })
                 .PrimaryKey(t => t.UserId);
+
             CreateTable(
                 "dbo.Queries",
                 c => new

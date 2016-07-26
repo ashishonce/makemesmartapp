@@ -27,6 +27,13 @@ namespace makemesmarter.Migrations
               new User { UserId="2",Name = "Brice Lambson", Token = "cOmtv712ZRM:APA91bHnt4JEtNPkAMtTy6d6xKVrlLHjcZl9vz8MpwDSipGcwjF5FZPtwfn20JLIGoWeC9tlK1BhNucKivwPNRuMaC_R4RBN3gHa0g-0NZz1sQ64SkYKvQMoqwvBVwr-y2Lzqtrrx8uR" },
               new User { UserId="3",Name = "Rowan Miller" , Token = "q" }
             );
+
+            context.Queries.AddOrUpdate(
+              p => p.Query,
+              new QueryModel { Query = "1", Reply = "Andrew Peters", },
+              new QueryModel { Query = "2", Reply = "Brice Lambson", },
+              new QueryModel { Query = "3", Reply = "Rowan Miller", }
+            );
             //
         }
     }
