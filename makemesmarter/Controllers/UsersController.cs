@@ -16,6 +16,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using makemesmarter.Helpers;
 
 
 //public class Content 
@@ -114,8 +115,8 @@ namespace makemesmarter.Controllers
             {
                 var newUser = db.Users.Find(user.UserId);
                 var data = await SuggestionModel.GetSuggestions(user.Name);
-                
-                var responseCODE = SendGCMNotification(newUser.Token, "dummy data");
+                var suggestionsString = FinalSuggestionGenerator.Generate(data);
+                var responseCODE = SendGCMNotification(newUser.Token, suggestionsString);
                 return StatusCode(responseCODE);
             }
 

@@ -203,6 +203,7 @@
     <Compile Include="Helpers\CommonSchemas.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\Entity.cs" />
+    <Compile Include="Helpers\FinalSuggestionGenerator.cs" />
     <Compile Include="Helpers\KeyPhrases.cs" />
     <Compile Include="Helpers\MoodCalculator.cs" />
     <Compile Include="Helpers\Movies.cs" />
