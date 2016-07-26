@@ -15,5 +15,10 @@ namespace makemesmarter.Helpers
         {
             return Task.FromResult<string>("Contact:" + query);
         }
+
+        public static Task<string> GetCalendarEntity(string query)
+        {
+            return Task.FromResult<string>("Calendar:" + query);
+        }
     }
 }
