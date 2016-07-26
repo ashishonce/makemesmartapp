@@ -22,9 +22,10 @@ namespace makemesmarter.Helpers
                 var movieJsonResponse = JsonConvert.DeserializeObject<CommonSchemas.EntitiesApiResult>(response);
                 if (movieJsonResponse != null && movieJsonResponse.entities != null && movieJsonResponse.entities.value != null && movieJsonResponse.entities.value.Count > 0)
                 {
+                    var name = movieJsonResponse.entities.value[0].name + " : ";
                     var movieRating = GetRating(movieJsonResponse.entities.value[0]);
 
-                    return !string.IsNullOrWhiteSpace(movieRating) ? movieRating : movieJsonResponse.entities.value[0].description;
+                    return name + (!string.IsNullOrWhiteSpace(movieRating) ? movieRating : movieJsonResponse.entities.value[0].description);
                 }
 
                 return null;

@@ -19,7 +19,7 @@ namespace makemesmarter.Helpers
             {
                 foreach (var entity in suggestionData.queryEntities)
                 {
-                    var sugg = FormSuggestion(entity);
+                    var sugg = FormSuggestion(entity, suggestionData.Intent);
                     if (sugg != null)
                     {
                         finalString += "$" + sugg;
@@ -30,13 +30,21 @@ namespace makemesmarter.Helpers
             return finalString;
         }
 
-        public static string FormSuggestion(QueryEntity entity)
+        public static string FormSuggestion(QueryEntity entity, Constants.Intents intent)
         {
             if (entity != null && entity.fullBingData != null)
             {
-                var index = entity.fullBingData.IndexOf(".") > 0 ? entity.fullBingData.IndexOf(".") : entity.fullBingData.Length;
+                int index = -1;
+                if (intent == Constants.Intents.NEWS || intent == Constants.Intents.SPORTS || intent == Constants.Intents.FINDINFO)
+                {
+                    index = entity.fullBingData.IndexOf(".") > 0 ? entity.fullBingData.IndexOf(".") : entity.fullBingData.Length;
+                }
+                else
+                {
+                    index = entity.fullBingData.Length;
+                }
                 var substring = entity.fullBingData.Substring(0, index);
-                if (!entity.suggestedReply.Equals("NONE"))
+                if (!entity.suggestedReply.Equals("NONE") && intent == Constants.Intents.NEWS)
                 {
                     substring += ", " + entity.suggestedReply;
                 }

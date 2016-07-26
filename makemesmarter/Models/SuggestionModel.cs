@@ -20,6 +20,8 @@ namespace makemesmarter.Models
         public bool isValid { get; set; }
 
         public IList<QueryEntity> queryEntities { get; set; }
+
+        public Constants.Intents Intent { get; set; }
     }
 
     public class QueryEntity
@@ -50,7 +52,7 @@ namespace makemesmarter.Models
 
             IList<string> entities = new List<string>();
             var extractedIntent = GetLUISIntent(queryString, entities);
-
+            suggestion.Intent = extractedIntent;
             if (extractedIntent == Constants.Intents.CHITCHAT)
             {
                 entities = new List<string>() { queryString };
