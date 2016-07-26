@@ -110,7 +110,7 @@ namespace makemesmarter.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if (string.IsNullOrWhiteSpace(user.Token) && string.IsNullOrWhiteSpace(user.Name))
+            if (user.Token == "delete")
             {
                 return DeleteUser(user.UserId);
             }
