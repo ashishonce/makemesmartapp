@@ -32,6 +32,7 @@
             TRANSLATION,
             WEATHER,
             CONTACT,
+            CALENDAR,
             OTHERS
         }
 

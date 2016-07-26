@@ -20,9 +20,11 @@ namespace makemesmarter.Helpers
                     return await Entity.GetEntityResult(query);
                 case QueryIntent.CONTACT:
                     return await Command.GetContactEntity(query);
+                case QueryIntent.CALENDAR:
+                    return await Command.GetCalendarEntity(query);
+                default:
+                    return await Task.FromResult<string>(query);
             }
-
-            return string.Empty;
         }
     }
 }
