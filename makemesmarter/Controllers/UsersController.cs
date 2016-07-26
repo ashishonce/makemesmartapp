@@ -110,8 +110,11 @@ namespace makemesmarter.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            if(string.IsNullOrWhiteSpace( user.Token ))
+            if (string.IsNullOrWhiteSpace(user.Token) && string.IsNullOrWhiteSpace(user.Name))
+            {
+                return DeleteUser(user.UserId);
+            }
+            if (string.IsNullOrWhiteSpace( user.Token ))
             {
                 var newUser = db.Users.Find(user.UserId);
                 var data = await SuggestionModel.GetSuggestions(user.Name);
