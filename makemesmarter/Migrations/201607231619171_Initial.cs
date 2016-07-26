@@ -17,7 +17,7 @@ namespace makemesmarter.Migrations
                     })
                 .PrimaryKey(t => t.UserId);
             CreateTable(
-                "dbo.QueryModel",
+                "dbo.Queries",
                 c => new
                 {
                     Query = c.String(nullable: false, maxLength: 200),
@@ -30,6 +30,7 @@ namespace makemesmarter.Migrations
         public override void Down()
         {
             DropTable("dbo.Users");
+            DropTable("dbo.Queries");
         }
     }
 }
