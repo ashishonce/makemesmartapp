@@ -23,7 +23,7 @@ namespace makemesmarter.Helpers
                 case Constants.PossibleMoods.GRIEF:
                     return "Oh my god ! that's terrible ";
                 case Constants.PossibleMoods.AWFULL:
-                    return "That's awfull";
+                    return "That's awful";
                 case Constants.PossibleMoods.NONE:
                     return "OK !!";
                 case Constants.PossibleMoods.NEUTRAL:
