@@ -20,9 +20,10 @@ namespace makemesmarter.Helpers
                 foreach (var entity in suggestionData.queryEntities)
                 {
                     var sugg = FormSuggestion(entity, suggestionData.Intent);
+                    var separator = suggestionData.Intent == Constants.Intents.CONTACT ? "~" : "$";
                     if (sugg != null)
                     {
-                        finalString += "$" + sugg;
+                        finalString += separator + sugg;
                     }
                 }
             }

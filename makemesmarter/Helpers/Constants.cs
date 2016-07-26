@@ -31,6 +31,7 @@
             FINDINFO,
             TRANSLATION,
             WEATHER,
+            CONTACT,
             OTHERS
         }
 

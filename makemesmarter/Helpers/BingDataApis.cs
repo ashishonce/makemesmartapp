@@ -18,6 +18,8 @@ namespace makemesmarter.Helpers
                 case QueryIntent.SPORTS:
                 case QueryIntent.FINDINFO:
                     return await Entity.GetEntityResult(query);
+                case QueryIntent.CONTACT:
+                    return await Command.GetContactEntity(query);
             }
 
             return string.Empty;

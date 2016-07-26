@@ -200,6 +200,7 @@
     </Compile>
     <Compile Include="Helpers\BingDataApis.cs" />
     <Compile Include="Helpers\ChitChat.cs" />
+    <Compile Include="Helpers\Command.cs" />
     <Compile Include="Helpers\CommonSchemas.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\Entity.cs" />
