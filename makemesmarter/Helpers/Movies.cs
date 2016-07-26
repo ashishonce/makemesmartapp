@@ -20,9 +20,14 @@ namespace makemesmarter.Helpers
                 var response = await CallEndpoint(client, moviesUrl);
 
                 var movieJsonResponse = JsonConvert.DeserializeObject<CommonSchemas.EntitiesApiResult>(response);
-                var movieRating = GetRating(movieJsonResponse.entities.value[0]);
+                if (movieJsonResponse != null && movieJsonResponse.entities != null && movieJsonResponse.entities.value != null && movieJsonResponse.entities.value.Count > 0)
+                {
+                    var movieRating = GetRating(movieJsonResponse.entities.value[0]);
 
-                return !string.IsNullOrWhiteSpace(movieRating) ? movieRating : movieJsonResponse.entities.value[0].description;
+                    return !string.IsNullOrWhiteSpace(movieRating) ? movieRating : movieJsonResponse.entities.value[0].description;
+                }
+
+                return null;
             }
         }
 

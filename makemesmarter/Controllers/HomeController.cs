@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using makemesmarter.Models;
 using System.Threading.Tasks;
+using makemesmarter.Helpers;
 
 namespace makemesmarter.Controllers
 {
@@ -119,7 +120,8 @@ namespace makemesmarter.Controllers
         public async Task <ActionResult> GetSuggestions(string id)
         {
             var data = await SuggestionModel.GetSuggestions(id);
-            return Json(data, JsonRequestBehavior.AllowGet);
+            var suggestionsString = FinalSuggestionGenerator.Generate(data);
+            return Json(suggestionsString, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)
