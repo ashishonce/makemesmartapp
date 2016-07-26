@@ -118,21 +118,24 @@ namespace makemesmarter.Controllers
             {
                 var responseCODE = HttpStatusCode.OK;
                 var newUser = db.Users.Find(user.UserId);
-                var existingObj = db.Queries.Find(user.Name);
-                if(existingObj == null)
-                {
-                    var data = await SuggestionModel.GetSuggestions(user.Name);
-                    var suggestionsString = FinalSuggestionGenerator.Generate(data);
-                    responseCODE = SendGCMNotification(newUser.Token, suggestionsString);
-                    var queryObj = new QueryModel();
-                    queryObj.Query = user.Name;
-                    queryObj.Reply = suggestionsString;
-                    db.Queries.Add(queryObj);
-                }
-                else
-                {
-                    responseCODE = SendGCMNotification(newUser.Token, existingObj.Reply);
-                }
+                var data = await SuggestionModel.GetSuggestions(user.Name);
+                var suggestionsString = FinalSuggestionGenerator.Generate(data);
+                responseCODE = SendGCMNotification(newUser.Token, suggestionsString);
+                //var existingObj = db.Queries.Find(user.Name);
+                //if(existingObj == null)
+                //{
+                //    var data = await SuggestionModel.GetSuggestions(user.Name);
+                //    var suggestionsString = FinalSuggestionGenerator.Generate(data);
+                //    responseCODE = SendGCMNotification(newUser.Token, suggestionsString);
+                //    var queryObj = new QueryModel();
+                //    queryObj.Query = user.Name;
+                //    queryObj.Reply = suggestionsString;
+                //    db.Queries.Add(queryObj);
+                //}
+                //else
+                //{
+                //    responseCODE = SendGCMNotification(newUser.Token, existingObj.Reply);
+                //}
 
                 return StatusCode(responseCODE);
             }

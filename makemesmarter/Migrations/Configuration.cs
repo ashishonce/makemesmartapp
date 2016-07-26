@@ -27,7 +27,7 @@ namespace makemesmarter.Migrations
               new User { UserId="2",Name = "Brice Lambson", Token = "cOmtv712ZRM:APA91bHnt4JEtNPkAMtTy6d6xKVrlLHjcZl9vz8MpwDSipGcwjF5FZPtwfn20JLIGoWeC9tlK1BhNucKivwPNRuMaC_R4RBN3gHa0g-0NZz1sQ64SkYKvQMoqwvBVwr-y2Lzqtrrx8uR" },
               new User { UserId="3",Name = "Rowan Miller" , Token = "q" }
             );
-            //
+
         }
     }
 }
