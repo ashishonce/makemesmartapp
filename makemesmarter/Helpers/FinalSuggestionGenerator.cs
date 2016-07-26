@@ -23,7 +23,7 @@ namespace makemesmarter.Helpers
                     var separator = suggestionData.Intent == Constants.Intents.CONTACT ? "~" : "$";
                     if (sugg != null)
                     {
-                        finalString += separator + sugg;
+                        finalString += separator + sugg + "😀";
                     }
                 }
             }
