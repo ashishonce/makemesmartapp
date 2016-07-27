@@ -21,9 +21,14 @@ namespace makemesmarter.Helpers
                 {
                     var sugg = FormSuggestion(entity, suggestionData.Intent);
                     var separator = (suggestionData.Intent == Constants.Intents.CONTACT) || (suggestionData.Intent == Constants.Intents.CALENDAR) ? "~" : "$";
-                    if (sugg != null && suggestionData.Intent != Constants.Intents.CONTACT && suggestionData.Intent != Constants.Intents.CALENDAR)
+                    if (sugg != null)
                     {
-                        finalString += separator + sugg + "😀";
+                        finalString += separator + sugg ;
+                    }
+
+                    if(sugg != null && suggestionData.Intent != Constants.Intents.CONTACT && suggestionData.Intent != Constants.Intents.CALENDAR)
+                    {
+                        finalString += "😀";
                     }
                 }
             }
