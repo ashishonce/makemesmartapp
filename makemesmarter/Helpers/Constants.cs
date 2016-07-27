@@ -14,7 +14,7 @@
 
         public const string BingDataApiBaseUrl = "https://www.bingapis.com/";
 
-        public const string BingDataApiUrl = "api/v5/search?q={0}&appid={1}";
+        public const string BingDataApiUrl = "api/v5/search?q={0}&appid={1}&setmkt=en-us";
 
         public const string BingDataApiAppID = "FA15B041D8404F934D4866D461005AE5159F0A90";
 

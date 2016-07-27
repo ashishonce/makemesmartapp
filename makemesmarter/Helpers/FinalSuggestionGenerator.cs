@@ -48,13 +48,17 @@ namespace makemesmarter.Helpers
                 if (intent != Constants.Intents.CONTACT && intent != Constants.Intents.CALENDAR)
                 {
                     var emoji = "";
-                    if (intent == Constants.Intents.CHITCHAT && message.Contains("like") || message.Contains("love") || message.Contains("thanks"))
+                    if (intent == Constants.Intents.CHITCHAT && message.ToLowerInvariant().Contains("like") || message.ToLowerInvariant().Contains("love") || message.ToLowerInvariant().Contains("thanks"))
                     {
-                        emoji = "😍";
+                        emoji = " 😍";
                     }
-                    if (intent == Constants.Intents.NEWS && entity.suggestedReply.Contains("terrible"))
+                    if (intent == Constants.Intents.CHITCHAT && message.ToLowerInvariant().Contains("hi") || message.ToLowerInvariant().Contains("hello"))
                     {
-                        emoji = "☹";
+                        emoji = " 😀";
+                    }
+                    if (intent == Constants.Intents.NEWS && entity.suggestedReply.ToLowerInvariant().Contains("terrible"))
+                    {
+                        emoji = " 😢";
                     }
 
                     substring += emoji;

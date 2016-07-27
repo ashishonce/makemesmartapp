@@ -76,9 +76,9 @@ namespace makemesmarter.Helpers
                     && newsJsonResponse.news != null
                     && newsJsonResponse.news.value != null
                     && newsJsonResponse.news.value.Count > 0
-                    && !string.IsNullOrWhiteSpace(newsJsonResponse.news.value[0].description))
+                    && !string.IsNullOrWhiteSpace(newsJsonResponse.news.value[0].name))
                 {
-                    return newsJsonResponse.news.value[0].description;
+                    return newsJsonResponse.news.value[0].name;
                 }
 
                 return null;
