@@ -20,8 +20,8 @@ namespace makemesmarter.Helpers
                 foreach (var entity in suggestionData.queryEntities)
                 {
                     var sugg = FormSuggestion(entity, suggestionData.Intent);
-                    var separator = suggestionData.Intent == Constants.Intents.CONTACT ? "~" : "$";
-                    if (sugg != null)
+                    var separator = (suggestionData.Intent == Constants.Intents.CONTACT) || (suggestionData.Intent == Constants.Intents.CALENDAR) ? "~" : "$";
+                    if (sugg != null && suggestionData.Intent != Constants.Intents.CONTACT && suggestionData.Intent != Constants.Intents.CALENDAR)
                     {
                         finalString += separator + sugg + "😀";
                     }
