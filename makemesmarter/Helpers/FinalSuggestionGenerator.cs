@@ -19,16 +19,11 @@ namespace makemesmarter.Helpers
             {
                 foreach (var entity in suggestionData.queryEntities)
                 {
-                    var sugg = FormSuggestion(entity, suggestionData.Intent);
+                    var sugg = FormSuggestion(entity, suggestionData.Intent, suggestionData.userMessage);
                     var separator = (suggestionData.Intent == Constants.Intents.CONTACT) || (suggestionData.Intent == Constants.Intents.CALENDAR) ? "~" : "$";
                     if (sugg != null)
                     {
                         finalString += separator + sugg ;
-                    }
-
-                    if(sugg != null && suggestionData.Intent != Constants.Intents.CONTACT && suggestionData.Intent != Constants.Intents.CALENDAR)
-                    {
-                        finalString += "😀";
                     }
                 }
             }
@@ -36,7 +31,7 @@ namespace makemesmarter.Helpers
             return finalString;
         }
 
-        public static string FormSuggestion(QueryEntity entity, Constants.Intents intent)
+        public static string FormSuggestion(QueryEntity entity, Constants.Intents intent, string message)
         {
             if (entity != null && entity.fullBingData != null)
             {
@@ -50,9 +45,19 @@ namespace makemesmarter.Helpers
                     index = entity.fullBingData.Length;
                 }
                 var substring = entity.fullBingData.Substring(0, index);
-                if (!entity.suggestedReply.Equals("NONE") && intent == Constants.Intents.NEWS)
+                if (intent != Constants.Intents.CONTACT && intent != Constants.Intents.CALENDAR)
                 {
-                    substring += ", " + entity.suggestedReply;
+                    var emoji = "";
+                    if (intent == Constants.Intents.CHITCHAT && message.Contains("like") || message.Contains("love") || message.Contains("thanks"))
+                    {
+                        emoji = "😍";
+                    }
+                    if (intent == Constants.Intents.NEWS && entity.suggestedReply.Contains("terrible"))
+                    {
+                        emoji = "☹";
+                    }
+
+                    substring += emoji;
                 }
 
                 return substring;

@@ -19,7 +19,6 @@ namespace makemesmarter.Helpers
             switch (mood)
             {
                 case Constants.PossibleMoods.SAD:
-                    return "SORRY TO HEAR THAT";
                 case Constants.PossibleMoods.GRIEF:
                     return "Oh my god ! that's terrible ";
                 case Constants.PossibleMoods.AWFULL:
