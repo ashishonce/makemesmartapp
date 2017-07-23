@@ -47,7 +47,20 @@ namespace makemesmarter.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "CommentId,PrAuthorId,PullRequestId,Status,IsUseful,JoinedComments,CumlativeLikes,FileType,FilePath,SentimentValue")] CommentThread commentThread)
+        public async Task<ActionResult> Create([Bind(Include = "CommentId,JoinedComments,Status,ThreadCount,IsUseful,CumlativeLikes,FileType,FilePath,SentimentValue,PrAuthorId,PullRequestId")] CommentThread commentThread)
+        {
+            if (ModelState.IsValid)
+            {
+                db.CommentThreads.Add(commentThread);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            return View(commentThread);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateUnique([Bind(Include = "CommentId,JoinedComments,Status,ThreadCount,IsUseful,CumlativeLikes,FileType,FilePath,SentimentValue,PrAuthorId,PullRequestId")] CommentThread commentThread)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +92,7 @@ namespace makemesmarter.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "CommentId,PrAuthorId,PullRequestId,Status,IsUseful,JoinedComments,CumlativeLikes,FileType,FilePath,SentimentValue")] CommentThread commentThread)
+        public async Task<ActionResult> Edit([Bind(Include = "CommentId,JoinedComments,Status,ThreadCount,IsUseful,CumlativeLikes,FileType,FilePath,SentimentValue,PrAuthorId,PullRequestId")] CommentThread commentThread)
         {
             if (ModelState.IsValid)
             {

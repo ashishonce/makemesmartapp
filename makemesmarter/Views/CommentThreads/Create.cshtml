@@ -17,18 +17,18 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.PrAuthorId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CommentId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PrAuthorId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PrAuthorId, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.CommentId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CommentId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PullRequestId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.JoinedComments, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PullRequestId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PullRequestId, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.JoinedComments, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.JoinedComments, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -41,18 +41,18 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsUseful, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ThreadCount, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.IsUseful, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IsUseful, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ThreadCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ThreadCount, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.JoinedComments, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IsUseful, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.JoinedComments, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.JoinedComments, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.IsUseful, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IsUseful, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -85,6 +85,22 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.SentimentValue, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SentimentValue, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PrAuthorId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PrAuthorId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PrAuthorId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PullRequestId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PullRequestId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PullRequestId, "", new { @class = "text-danger" })
             </div>
         </div>
 

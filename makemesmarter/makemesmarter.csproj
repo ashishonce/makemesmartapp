@@ -217,17 +217,9 @@
     <Compile Include="Helpers\Movies.cs" />
     <Compile Include="Helpers\News.cs" />
     <Compile Include="Helpers\SentimentDetector.cs" />
-    <Compile Include="Migrations\201707220706043_Initial.cs" />
-    <Compile Include="Migrations\201707220706043_Initial.Designer.cs">
-      <DependentUpon>201707220706043_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707231321203_comment_thread.cs" />
-    <Compile Include="Migrations\201707231321203_comment_thread.Designer.cs">
-      <DependentUpon>201707231321203_comment_thread.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707231358221_comment_thread_updated.cs" />
-    <Compile Include="Migrations\201707231358221_comment_thread_updated.Designer.cs">
-      <DependentUpon>201707231358221_comment_thread_updated.cs</DependentUpon>
+    <Compile Include="Migrations\201707231915247_Initial.cs" />
+    <Compile Include="Migrations\201707231915247_Initial.Designer.cs">
+      <DependentUpon>201707231915247_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CommentThread.cs" />
@@ -313,14 +305,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201707220706043_Initial.resx">
-      <DependentUpon>201707220706043_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707231321203_comment_thread.resx">
-      <DependentUpon>201707231321203_comment_thread.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707231358221_comment_thread_updated.resx">
-      <DependentUpon>201707231358221_comment_thread_updated.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201707231915247_Initial.resx">
+      <DependentUpon>201707231915247_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
