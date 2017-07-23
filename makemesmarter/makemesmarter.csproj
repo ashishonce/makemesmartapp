@@ -201,12 +201,23 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Features\Category.cs" />
+    <Compile Include="Features\CommentLength.cs" />
+    <Compile Include="Features\Filetype.cs" />
+    <Compile Include="Features\Sentiment.cs" />
+    <Compile Include="Features\Status.cs" />
+    <Compile Include="Features\ThreadLength.cs" />
+    <Compile Include="Features\Upvotes.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BingDataApis.cs" />
     <Compile Include="Helpers\ChitChat.cs" />
     <Compile Include="Helpers\Command.cs" />
+    <Compile Include="Helpers\CommentAnalyser.cs" />
+    <Compile Include="Helpers\CommentCategory.cs" />
+    <Compile Include="Helpers\CommentFeatures.cs" />
+    <Compile Include="Helpers\CommentStatus.cs" />
     <Compile Include="Helpers\CommonSchemas.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\Entity.cs" />

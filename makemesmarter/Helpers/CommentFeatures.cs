@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using makemesmarter.Features;s
+using makemesmarter.Features;
 using makemesmarter.Helpers;
 
 namespace makemesmarter.Models
