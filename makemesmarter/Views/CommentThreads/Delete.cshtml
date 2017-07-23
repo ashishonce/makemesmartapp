@@ -1,0 +1,97 @@
+﻿@model makemesmarter.Models.CommentThread
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CommentThread</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PrAuthorId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrAuthorId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PullRequestId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PullRequestId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsUseful)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsUseful)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JoinedComments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JoinedComments)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CumlativeLikes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CumlativeLikes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FilePath)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FilePath)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SentimentValue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SentimentValue)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

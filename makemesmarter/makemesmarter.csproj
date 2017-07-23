@@ -197,6 +197,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\CommentThreadsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -220,7 +221,16 @@
     <Compile Include="Migrations\201707220706043_Initial.Designer.cs">
       <DependentUpon>201707220706043_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707231321203_comment_thread.cs" />
+    <Compile Include="Migrations\201707231321203_comment_thread.Designer.cs">
+      <DependentUpon>201707231321203_comment_thread.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707231358221_comment_thread_updated.cs" />
+    <Compile Include="Migrations\201707231358221_comment_thread_updated.Designer.cs">
+      <DependentUpon>201707231358221_comment_thread_updated.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\CommentThread.cs" />
     <Compile Include="Models\makemesmarterContext.cs" />
     <Compile Include="Models\QueryModel.cs" />
     <Compile Include="Models\SuggestionModel.cs">
@@ -288,6 +298,11 @@
     <Content Include="Views\Home\Delete.cshtml" />
     <Content Include="Views\Home\Details.cshtml" />
     <Content Include="Views\Home\Edit.cshtml" />
+    <Content Include="Views\CommentThreads\Create.cshtml" />
+    <Content Include="Views\CommentThreads\Delete.cshtml" />
+    <Content Include="Views\CommentThreads\Details.cshtml" />
+    <Content Include="Views\CommentThreads\Edit.cshtml" />
+    <Content Include="Views\CommentThreads\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -300,6 +315,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201707220706043_Initial.resx">
       <DependentUpon>201707220706043_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707231321203_comment_thread.resx">
+      <DependentUpon>201707231321203_comment_thread.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707231358221_comment_thread_updated.resx">
+      <DependentUpon>201707231358221_comment_thread_updated.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

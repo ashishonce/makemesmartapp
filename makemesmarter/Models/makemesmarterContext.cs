@@ -22,6 +22,8 @@ namespace makemesmarter.Models
         public makemesmarterContext() : base("name=makemesmarterContext")
         {
         }
+
+        public System.Data.Entity.DbSet<makemesmarter.Models.CommentThread> CommentThreads { get; set; }
     }
 }
 
