@@ -1,0 +1,82 @@
+﻿@model IEnumerable<makemesmarter.Models.CommentThread>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PrAuthorId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PullRequestId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsUseful)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JoinedComments)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CumlativeLikes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FileType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FilePath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SentimentValue)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrAuthorId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PullRequestId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsUseful)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JoinedComments)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CumlativeLikes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FileType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FilePath)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SentimentValue)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.CommentId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CommentId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CommentId })
+        </td>
+    </tr>
+}
+
+</table>
