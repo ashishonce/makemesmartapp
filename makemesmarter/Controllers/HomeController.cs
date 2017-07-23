@@ -8,6 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using makemesmarter.Models;
 using System.Threading.Tasks;
+using makemesmarter.Helpers;
+using System.Threading.Tasks;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using System.Collections.Generic;
 
 namespace makemesmarter.Controllers
 {
@@ -47,7 +52,7 @@ namespace makemesmarter.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserId,Name")] User user)
+        public ActionResult Create([Bind(Include = "UserId,Name,Token")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +84,7 @@ namespace makemesmarter.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserId,Name")] User user)
+        public ActionResult Edit([Bind(Include = "UserId,Name,Token")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -105,8 +110,6 @@ namespace makemesmarter.Controllers
             return View(user);
         }
 
-
-
         // POST: Home/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -121,7 +124,54 @@ namespace makemesmarter.Controllers
         public async Task <ActionResult> GetSuggestions(string id)
         {
             var data = await SuggestionModel.GetSuggestions(id);
-            return Json(data, JsonRequestBehavior.AllowGet);
+            var suggestionsString = FinalSuggestionGenerator.Generate(data);
+            return Json(suggestionsString, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<string> GetSentiments(string text)
+        {
+            var resultString = await SentimentDetector.GetSentiment(text);
+            return resultString.ToString();
+        }
+
+        public async Task<string> SendMail()
+        {
+            var listmail = new List<EmailAddress>();
+            var mailAddressList = new List<Tuple<string, string>>
+            {
+                new Tuple<string, string>("ashkuma@microsoft.com", "ashish kumar"),
+                new Tuple<string, string>("nazikh@microsoft.com", "nazia khan"),
+                new Tuple<string, string>("umkan@microsoft.com", "umesh kanoja"),
+                new Tuple<string, string>("riniga@microsoft.com", "richa nigam")
+            };
+
+            foreach(var mailAddress in mailAddressList)
+            {
+                EmailAddress testemail = new EmailAddress();
+                testemail.Email = mailAddress.Item1;
+                testemail.Name = mailAddress.Item2;
+                listmail.Add(testemail);
+            }
+            
+            var content = MailContentCreator.CreatePendingCommentResponse(); ;
+      
+            await SendEmail(listmail, "Pending CR comments", content);
+            this.Response.StatusCode = (int)HttpStatusCode.OK;
+            return content;
+        }
+
+        private static async Task SendEmail(List<EmailAddress> recipients, string subject, string mailContent)
+        {
+            var client = new SendGridClient("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");
+            var msg = new SendGridMessage()
+            {
+                From = new EmailAddress("noreply@azure.com", "CodeFlow Stalker"),
+                Subject = subject,
+                HtmlContent = mailContent
+            };
+
+            msg.AddTos(recipients);
+            var response = await client.SendEmailAsync(msg);
         }
 
         protected override void Dispose(bool disposing)

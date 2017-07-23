@@ -18,11 +18,6 @@ namespace makemesmarter
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-            routes.MapRoute(
-                name: "GetUser",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Users", action = "GetUser", id = UrlParameter.Optional }
-            );
         }
     }
 }

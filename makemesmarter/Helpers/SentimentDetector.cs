@@ -28,7 +28,7 @@ namespace makemesmarter.Helpers
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(Constants.AzureApiBaseUrl);
-
+                https://westus.api.cognitive.microsoft.com/text/analytics/v2.0
                 // Request headers.
                 client.DefaultRequestHeaders.Add(Constants.AzureApiAccountKeyHeader, Constants.AzureApiAccountKey);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -39,8 +39,17 @@ namespace makemesmarter.Helpers
                 // Detect sentiment:
                 var uri = "text/analytics/v2.0/sentiment";
                 var response = await CallEndpoint(client, uri, byteData);
+                if(response == null)
+                {
+                    return 0;
+                }
 
                 var sentimentJsonResponse = JsonConvert.DeserializeObject<SentimentResult>(response);
+                if (sentimentJsonResponse == null || sentimentJsonResponse.documents == null || sentimentJsonResponse.documents.Count < 0)
+                {
+                    return 0;
+                }
+
                 var sentimentScore = sentimentJsonResponse.documents[0].score * 100;
 
                 return sentimentScore;

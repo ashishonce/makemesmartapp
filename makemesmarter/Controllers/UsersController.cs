@@ -11,6 +11,36 @@ using System.Text;
 using System.Web.Http;
 using System.Web.Http.Description;
 using makemesmarter.Models;
+using System.Runtime.Serialization;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using makemesmarter.Helpers;
+
+
+//public class Content 
+//{
+//        public List<String> registration_ids;
+//        public Map<String, String> data;
+
+//        public void addRegId(String regId)
+//        {
+//            if (registration_ids == null)
+//                registration_ids = new LinkedList<String>();
+//            registration_ids.add(regId);
+//        }
+
+//        public void createData(String title, String message)
+//        {
+//            if (data == null)
+//                data = new HashMap<String, String>();
+
+//            data.put("title", title);
+//            data.put("message", message);
+//        }
+//}
+
 
 namespace makemesmarter.Controllers
 {
@@ -74,11 +104,40 @@ namespace makemesmarter.Controllers
 
         // POST: api/Users
         [ResponseType(typeof(User))]
-        public IHttpActionResult PostUser(User user)
+        public async Task<IHttpActionResult>  PostUser(User user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+            if (user.Token == "delete")
+            {
+                return DeleteUser(user.UserId);
+            }
+            if (string.IsNullOrWhiteSpace( user.Token ))
+            {
+                var responseCODE = HttpStatusCode.OK;
+                var newUser = db.Users.Find(user.UserId);
+                var data = await SuggestionModel.GetSuggestions(user.Name);
+                var suggestionsString = FinalSuggestionGenerator.Generate(data);
+                responseCODE = SendGCMNotification(newUser.Token, suggestionsString);
+                //var existingObj = db.Queries.Find(user.Name);
+                //if(existingObj == null)
+                //{
+                //    var data = await SuggestionModel.GetSuggestions(user.Name);
+                //    var suggestionsString = FinalSuggestionGenerator.Generate(data);
+                //    responseCODE = SendGCMNotification(newUser.Token, suggestionsString);
+                //    var queryObj = new QueryModel();
+                //    queryObj.Query = user.Name;
+                //    queryObj.Reply = suggestionsString;
+                //    db.Queries.Add(queryObj);
+                //}
+                //else
+                //{
+                //    responseCODE = SendGCMNotification(newUser.Token, existingObj.Reply);
+                //}
+
+                return StatusCode(responseCODE);
             }
 
             db.Users.Add(user);
@@ -100,25 +159,6 @@ namespace makemesmarter.Controllers
             }
 
             return CreatedAtRoute("DefaultApi", new { id = user.UserId }, user);
-        }
-
-        // POST: api/Users
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PostMessage(string UserId, string Message)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (!UserExists(UserId))
-            {
-                return NotFound();
-            }
-
-            SendNotification(UserId, Message, 1);
-
-            return StatusCode(HttpStatusCode.NoContent);
         }
 
         // DELETE: api/Users/5
@@ -151,31 +191,75 @@ namespace makemesmarter.Controllers
             return db.Users.Count(e => e.UserId == id) > 0;
         }
 
-        public void SendNotification(string clientID, string message, int badgeCount)
+        public HttpStatusCode SendGCMNotification( string deviceId, string message)
         {
-            var GoogleAppID = "AIzaSyDxPQm7K6XCtwXPyDDgeOhmgbzdzxoedD4";
-            var SenderID = "24788899907";
+            string postDataContentType = "application/json";
+            var apiKey = "AIzaSyDxPQm7K6XCtwXPyDDgeOhmgbzdzxoedD4"; // hardcorded
+            
 
-            WebRequest gcmSendRequest = WebRequest.Create("https://android.googleapis.com/gcm/send");
-            gcmSendRequest.Method = "post";
-            gcmSendRequest.Headers.Add(string.Format("Authorization: key={0}", GoogleAppID));
-            gcmSendRequest.Headers.Add(string.Format("Sender: id={0}", SenderID));
+            
+            string tickerText = "example test GCM";
+            string contentTitle = "content title GCM";
+            string postData =
+            "{ \"registration_ids\": [ \"" + deviceId + "\" ], " +
+              "\"data\": {\"tickerText\":\"" + tickerText + "\", " +
+                         "\"contentTitle\":\"" + contentTitle + "\", " +
+                         "\"message\": \"" + message + "\"}}";
 
-            string postData = string.Format("collapse_key=score_update&time_to_live=108&delay_while_idle=1&data.message={0} &data.time={1} &data.badge={3} &data.sound={4}&registration_id={2}", message, DateTime.UtcNow, clientID, badgeCount, "default");
-            Byte[] byteArray = Encoding.ASCII.GetBytes(postData);
-            gcmSendRequest.ContentLength = byteArray.Length;
-            Stream dataStream = gcmSendRequest.GetRequestStream();
+
+            ServicePointManager.ServerCertificateValidationCallback += new RemoteCertificateValidationCallback(ValidateServerCertificate);
+
+            //
+            //  MESSAGE CONTENT
+            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+
+            //
+            //  CREATE REQUEST
+            HttpWebRequest Request = (HttpWebRequest)WebRequest.Create("https://android.googleapis.com/gcm/send");
+            Request.Method = "POST";
+            Request.KeepAlive = false;
+            Request.ContentType = postDataContentType;
+            Request.Headers.Add(string.Format("Authorization: key={0}", apiKey));
+            Request.ContentLength = byteArray.Length;
+
+            Stream dataStream = Request.GetRequestStream();
             dataStream.Write(byteArray, 0, byteArray.Length);
             dataStream.Close();
-            WebResponse webResponse = gcmSendRequest.GetResponse();
-            dataStream = webResponse.GetResponseStream();
-            using (StreamReader streamReader = new StreamReader(dataStream))
+
+            //
+            //  SEND MESSAGE
+            try
             {
-                string sResponseFromServer = streamReader.ReadToEnd();
-                streamReader.Close();
-                dataStream.Close();
-                webResponse.Close();
+                WebResponse Response = Request.GetResponse();
+                HttpStatusCode ResponseCode = ((HttpWebResponse)Response).StatusCode;
+                if (ResponseCode.Equals(HttpStatusCode.Unauthorized) || ResponseCode.Equals(HttpStatusCode.Forbidden))
+                {
+                    var text = "Unauthorized - need new token";
+                }
+                else if (!ResponseCode.Equals(HttpStatusCode.OK))
+                {
+                    var text = "Response from web service isn't OK";
+                }
+
+                StreamReader Reader = new StreamReader(Response.GetResponseStream());
+                string responseLine = Reader.ReadToEnd();
+                Reader.Close();
+
+                return ResponseCode;
             }
+            catch (Exception e)
+            {
+            }
+            return HttpStatusCode.InternalServerError;
+        }
+
+        public static bool ValidateServerCertificate(
+        object sender,
+        X509Certificate certificate,
+        X509Chain chain,
+        SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
         }
     }
 }
