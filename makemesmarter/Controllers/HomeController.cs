@@ -124,6 +124,17 @@ namespace makemesmarter.Controllers
             return Json(suggestionsString, JsonRequestBehavior.AllowGet);
         }
 
+        public async Task<string> GetSentiments(string text)
+        {
+            var resultString = await SentimentDetector.GetSentiment(text);
+            return resultString.ToString();
+        }
+
+        public async Task SendMail()
+        {
+            this.Response.StatusCode = (int)HttpStatusCode.OK;
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

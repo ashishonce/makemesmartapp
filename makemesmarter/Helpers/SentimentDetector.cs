@@ -28,7 +28,7 @@ namespace makemesmarter.Helpers
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(Constants.AzureApiBaseUrl);
-
+                https://westus.api.cognitive.microsoft.com/text/analytics/v2.0
                 // Request headers.
                 client.DefaultRequestHeaders.Add(Constants.AzureApiAccountKeyHeader, Constants.AzureApiAccountKey);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

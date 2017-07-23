@@ -12,6 +12,7 @@ namespace makemesmarter.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(makemesmarter.Models.makemesmarterContext context)

@@ -5,7 +5,7 @@
         public const string AzureApiBaseUrl = "https://westus.api.cognitive.microsoft.com/";
 
         // another key: e3ee1ecbc1ea400ea5f77653a2844744
-        public const string AzureApiAccountKey = "6fce4869ab614b98997e2ed8cba663a3";
+        public const string AzureApiAccountKey = "3f0456f3b5c843129a861fde8a68080e";
 
         public const string AzureApiAccountKeyHeader = "Ocp-Apim-Subscription-Key";
 
