@@ -85,6 +85,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SendGrid, Version=9.5.1.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sendgrid.9.5.1\lib\net452\SendGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -103,9 +111,6 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
     </Reference>
@@ -192,6 +197,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\CommentThreadsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -200,17 +206,36 @@
     </Compile>
     <Compile Include="Helpers\BingDataApis.cs" />
     <Compile Include="Helpers\ChitChat.cs" />
+    <Compile Include="Helpers\Command.cs" />
+    <Compile Include="Helpers\CommonSchemas.cs" />
     <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\Entity.cs" />
+    <Compile Include="Helpers\FinalSuggestionGenerator.cs" />
     <Compile Include="Helpers\KeyPhrases.cs" />
+    <Compile Include="Helpers\MailContentCreator.cs" />
     <Compile Include="Helpers\MoodCalculator.cs" />
+    <Compile Include="Helpers\Movies.cs" />
+    <Compile Include="Helpers\News.cs" />
     <Compile Include="Helpers\SentimentDetector.cs" />
-    <Compile Include="Migrations\201607231619171_Initial.cs" />
-    <Compile Include="Migrations\201607231619171_Initial.Designer.cs">
-      <DependentUpon>201607231619171_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201707220706043_Initial.cs" />
+    <Compile Include="Migrations\201707220706043_Initial.Designer.cs">
+      <DependentUpon>201707220706043_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707231321203_comment_thread.cs" />
+    <Compile Include="Migrations\201707231321203_comment_thread.Designer.cs">
+      <DependentUpon>201707231321203_comment_thread.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707231358221_comment_thread_updated.cs" />
+    <Compile Include="Migrations\201707231358221_comment_thread_updated.Designer.cs">
+      <DependentUpon>201707231358221_comment_thread_updated.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\CommentThread.cs" />
     <Compile Include="Models\makemesmarterContext.cs" />
-    <Compile Include="Models\SuggestionModel.cs" />
+    <Compile Include="Models\QueryModel.cs" />
+    <Compile Include="Models\SuggestionModel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -273,11 +298,11 @@
     <Content Include="Views\Home\Delete.cshtml" />
     <Content Include="Views\Home\Details.cshtml" />
     <Content Include="Views\Home\Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607231619171_Initial.resx">
-      <DependentUpon>201607231619171_Initial.cs</DependentUpon>
-    </EmbeddedResource>
+    <Content Include="Views\CommentThreads\Create.cshtml" />
+    <Content Include="Views\CommentThreads\Delete.cshtml" />
+    <Content Include="Views\CommentThreads\Details.cshtml" />
+    <Content Include="Views\CommentThreads\Edit.cshtml" />
+    <Content Include="Views\CommentThreads\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -286,6 +311,17 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201707220706043_Initial.resx">
+      <DependentUpon>201707220706043_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707231321203_comment_thread.resx">
+      <DependentUpon>201707231321203_comment_thread.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707231358221_comment_thread_updated.resx">
+      <DependentUpon>201707231358221_comment_thread_updated.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

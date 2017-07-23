@@ -17,9 +17,13 @@ namespace makemesmarter.Models
 
         public DbSet<User> Users { get; set; }
 
+        //public DbSet<QueryModel> Queries { get; set; }
+
         public makemesmarterContext() : base("name=makemesmarterContext")
         {
         }
+
+        public System.Data.Entity.DbSet<makemesmarter.Models.CommentThread> CommentThreads { get; set; }
     }
 }
 
