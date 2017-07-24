@@ -1,0 +1,59 @@
+﻿@model IEnumerable<makemesmarter.Models.CommentThread>
+
+@{
+    ViewBag.Title = "CommentSearch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var tempModle = (IEnumerable < makemesmarter.Models.CommentThread >) ViewData["Model"];
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <label for="searchTxt" value="Comment Text">Comment Text</label><input id="searchTxt" name="searchTxt" value="" placeholder="enter min 4 chars to search" />
+        <label for="csearchTxt" value="Commenter">Commented by</label><input id="csearchTxt" name="csearchTxt" value="" placeholder="enter commenter name" />
+        <label for="asearchTxt" value="Commenter">Author</label><input id="asearchTxt" name="asearchTxt" value="" placeholder="enter author name" />
+        <button value="Search" onclick="window.location.href = '/CommentThreads/GetFilteredComments?&text=' + document.getElementById('searchTxt').value + '&commenter=' + document.getElementById('csearchTxt').value + '&author=' + document.getElementById('asearchTxt').value">Search</button>
+    </div>
+    <table>
+        <tr>
+            <th>
+                PRID
+            </th>
+            <th>
+                Comment
+            </th>
+            <th>
+                PR Title
+            </th>
+            <th>
+                Commentor
+            </th>
+            <th>
+                Author
+            </th>
+        </tr>
+            
+        
+        @foreach (var modle in tempModle)
+        {
+        <tr>
+            @{
+                var link = "https://msasg.visualstudio.com/DefaultCollection/Bing_UX/Bing_UX%20Teams/_git/snrcode/pullrequest/" + @modle.PullRequestId;
+                <td><a href="@link"> @modle.PullRequestId</a></td>
+                <td>@modle.JoinedComments</td>
+                <td>@modle.Status</td>
+                <td>@modle.CommentInitiator</td>
+                <td>@modle.PrAuthorId</td>
+            }
+        </tr>
+        }
+    </table>
+   
+
+</body>
+</html>

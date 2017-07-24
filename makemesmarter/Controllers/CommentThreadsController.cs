@@ -60,7 +60,7 @@ namespace makemesmarter.Controllers
         }
 
         [HttpPost]
-        public async Task CreateUnique([Bind(Include = "CommentId,JoinedComments,Status,ThreadCount,IsUseful,CumlativeLikes,FileType,FilePath,SentimentValue,PrAuthorId,PullRequestId")] CommentThread commentThread)
+        public async Task CreateUnique([Bind(Include = "CommentId,JoinedComments,Status,ThreadCount,IsUseful,CumlativeLikes,FileType,FilePath,SentimentValue,CommentInitiator,PrAuthorId,PullRequestId")] CommentThread commentThread)
         {
             if (ModelState.IsValid)
             {
@@ -133,6 +133,39 @@ namespace makemesmarter.Controllers
             db.CommentThreads.Remove(commentThread);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        public async Task DeleteAllUnique()
+        {
+
+            db.CommentThreads.RemoveRange(db.CommentThreads.AsEnumerable());
+            await db.SaveChangesAsync();
+            this.Response.StatusCode = (int) HttpStatusCode.OK;
+            return;
+        }
+
+        public async Task<ActionResult> GetFilteredComments(string text, string author, string commenter, string fileType)
+        {
+            if(!string.IsNullOrWhiteSpace(text))
+            {
+                var resultModel = db.CommentThreads.Where(x => x.JoinedComments.Contains(text)).ToList();
+
+                if(!string.IsNullOrWhiteSpace(commenter))
+                {
+                    resultModel = resultModel.Where(x => x.CommentInitiator.Contains(commenter)).ToList();
+                }
+
+                if (!string.IsNullOrWhiteSpace(author))
+                {
+                    resultModel = resultModel.Where(x => x.PrAuthorId.Contains(author)).ToList();
+                }
+
+                ViewData["Model"] = resultModel;
+                return View("CommentSearch");
+            }
+            else{
+                return View("CommentSearch");
+            }
         }
 
         protected override void Dispose(bool disposing)
