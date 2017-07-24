@@ -60,16 +60,20 @@ namespace makemesmarter.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateUnique([Bind(Include = "CommentId,JoinedComments,Status,ThreadCount,IsUseful,CumlativeLikes,FileType,FilePath,SentimentValue,PrAuthorId,PullRequestId")] CommentThread commentThread)
+        public async Task CreateUnique([Bind(Include = "CommentId,JoinedComments,Status,ThreadCount,IsUseful,CumlativeLikes,FileType,FilePath,SentimentValue,PrAuthorId,PullRequestId")] CommentThread commentThread)
         {
             if (ModelState.IsValid)
             {
+                if(db.CommentThreads.Where(x => x.CommentId.Equals(commentThread.CommentId)).ToList().Count > 0)
+                {
+                    return ;
+                }
                 db.CommentThreads.Add(commentThread);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return ;
             }
 
-            return View(commentThread);
+            return ;
         }
 
         // GET: CommentThreads/Edit/5

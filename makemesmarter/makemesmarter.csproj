@@ -233,6 +233,7 @@
       <DependentUpon>201707231915247_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\ChartModel.cs" />
     <Compile Include="Models\CommentThread.cs" />
     <Compile Include="Models\makemesmarterContext.cs" />
     <Compile Include="Models\QueryModel.cs" />
