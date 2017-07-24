@@ -24,6 +24,10 @@ namespace makemesmarter.Models
         }
 
         public System.Data.Entity.DbSet<makemesmarter.Models.CommentThread> CommentThreads { get; set; }
+
+        public System.Data.Entity.DbSet<makemesmarter.Models.ReviewerData> ReviewerDatas { get; set; }
+
+        public System.Data.Entity.DbSet<makemesmarter.Models.ReviewScore> ReviewScores { get; set; }
     }
 }
 

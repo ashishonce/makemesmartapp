@@ -1,0 +1,69 @@
+﻿@model IEnumerable<makemesmarter.Models.DisplayReviewScore>
+@{
+	ViewBag.Title = "ReviewerScore";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var tempModle = (IQueryable<makemesmarter.Models.DisplayReviewScore>)ViewData["Model"];
+	var filetype = ViewData["filetype"];
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title></title>
+	<script type="text/javascript">
+		function getReviewers(value) {
+			window.location.href = '/ReviewScores/GetTopReviewers?&filetype=' + value;
+		}
+	</script>
+
+</head>
+<body>
+
+	<h2>Top Reviewers</h2>
+	<select name="dropdown" id="filetypeSelect" onchange="getReviewers(this.value)">
+		<option value="default">All</option>
+		<option value="script" >Script</option>
+		<option value="style">Style</option>
+		<option value="CS">CS</option>
+		<option value="config">Config</option>
+		<option value="views">Views</option>
+	</select>
+
+	<table>
+		<tr>
+			<th>
+				Alias
+			</th>
+			<th colspan="2">
+				Name
+			</th>
+			<th>
+				Score
+			</th>
+		</tr>
+
+		@if (tempModle != null)
+		{
+			foreach (var modle in tempModle)
+			{
+				<tr>
+					@{
+						<td>@modle.Alias</td>
+						<td colspan="2">@modle.FirstName &nbsp; @modle.LastName</td>
+						<td>@modle.Score</td>
+					}
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="3">No data available for this selection!</td>
+			</tr>
+		}
+	</table>
+
+</body>
+</html>

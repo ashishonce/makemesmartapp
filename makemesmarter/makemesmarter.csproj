@@ -199,6 +199,8 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\CommentThreadsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ReviewerDatasController.cs" />
+    <Compile Include="Controllers\ReviewScoresController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Features\Category.cs" />
@@ -244,8 +246,11 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChartModel.cs" />
     <Compile Include="Models\CommentThread.cs" />
+    <Compile Include="Models\DisplayReviewScore.cs" />
     <Compile Include="Models\makemesmarterContext.cs" />
     <Compile Include="Models\QueryModel.cs" />
+    <Compile Include="Models\ReviewerData.cs" />
+    <Compile Include="Models\ReviewScore.cs" />
     <Compile Include="Models\SuggestionModel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -317,6 +322,17 @@
     <Content Include="Views\CommentThreads\Edit.cshtml" />
     <Content Include="Views\CommentThreads\Index.cshtml" />
     <Content Include="Views\CommentThreads\CommentSearch.cshtml" />
+    <Content Include="Views\ReviewScores\Create.cshtml" />
+    <Content Include="Views\ReviewScores\Delete.cshtml" />
+    <Content Include="Views\ReviewScores\Details.cshtml" />
+    <Content Include="Views\ReviewScores\Edit.cshtml" />
+    <Content Include="Views\ReviewScores\Index.cshtml" />
+    <Content Include="Views\ReviewerDatas\Create.cshtml" />
+    <Content Include="Views\ReviewerDatas\Delete.cshtml" />
+    <Content Include="Views\ReviewerDatas\Details.cshtml" />
+    <Content Include="Views\ReviewerDatas\Edit.cshtml" />
+    <Content Include="Views\ReviewerDatas\Index.cshtml" />
+    <Content Include="Views\ReviewScores\ReviewerScore.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
