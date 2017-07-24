@@ -66,8 +66,10 @@ namespace makemesmarter.Controllers
             {
                 if(db.CommentThreads.Where(x => x.CommentId.Equals(commentThread.CommentId)).ToList().Count > 0)
                 {
+                    await db.SaveChangesAsync();
                     return ;
                 }
+
                 db.CommentThreads.Add(commentThread);
                 await db.SaveChangesAsync();
                 return ;

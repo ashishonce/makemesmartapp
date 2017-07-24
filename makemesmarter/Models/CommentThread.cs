@@ -32,6 +32,10 @@ namespace makemesmarter.Models
 
         public double SentimentValue { get; set; }
 
+        public string commentInitiator { get; set; }
+
+        public int initiatorCommentLength { get; set; }
+
         public string PrAuthorId
         {
             get; set;

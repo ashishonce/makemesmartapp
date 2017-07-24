@@ -232,6 +232,10 @@
     <Compile Include="Migrations\201707231915247_Initial.Designer.cs">
       <DependentUpon>201707231915247_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707241043525_Initial_updatedCommentThread.cs" />
+    <Compile Include="Migrations\201707241043525_Initial_updatedCommentThread.Designer.cs">
+      <DependentUpon>201707241043525_Initial_updatedCommentThread.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChartModel.cs" />
     <Compile Include="Models\CommentThread.cs" />
@@ -319,6 +323,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201707231915247_Initial.resx">
       <DependentUpon>201707231915247_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707241043525_Initial_updatedCommentThread.resx">
+      <DependentUpon>201707241043525_Initial_updatedCommentThread.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
