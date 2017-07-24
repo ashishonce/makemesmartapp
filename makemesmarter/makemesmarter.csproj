@@ -233,6 +233,14 @@
     <Compile Include="Migrations\201707231915247_Initial.Designer.cs">
       <DependentUpon>201707231915247_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707241043525_Initial_updatedCommentThread.cs" />
+    <Compile Include="Migrations\201707241043525_Initial_updatedCommentThread.Designer.cs">
+      <DependentUpon>201707241043525_Initial_updatedCommentThread.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707241333209_Initial_updateComment.cs" />
+    <Compile Include="Migrations\201707241333209_Initial_updateComment.Designer.cs">
+      <DependentUpon>201707241333209_Initial_updateComment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChartModel.cs" />
     <Compile Include="Models\CommentThread.cs" />
@@ -308,6 +316,7 @@
     <Content Include="Views\CommentThreads\Details.cshtml" />
     <Content Include="Views\CommentThreads\Edit.cshtml" />
     <Content Include="Views\CommentThreads\Index.cshtml" />
+    <Content Include="Views\CommentThreads\CommentSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -320,6 +329,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201707231915247_Initial.resx">
       <DependentUpon>201707231915247_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707241043525_Initial_updatedCommentThread.resx">
+      <DependentUpon>201707241043525_Initial_updatedCommentThread.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707241333209_Initial_updateComment.resx">
+      <DependentUpon>201707241333209_Initial_updateComment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

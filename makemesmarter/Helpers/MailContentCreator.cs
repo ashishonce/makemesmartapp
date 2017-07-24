@@ -5,20 +5,25 @@ using System.Text;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using makemesmarter.Models;
 
 namespace makemesmarter.Helpers
 {
 
     public static class MailContentCreator
     {
-        public static string CreatePendingCommentResponse()
+        public static string CreatePendingCommentResponse(List<CommentThread> commentList)
         {
             var content = "<html>";
             content += Getstyle();
             content += "<h2> Pending CR summary</h2>";
             content += "<table>";
             content += addHeader();
-            content += addRow("12345", "This is funny comment", "newfile");
+            foreach( var comment in commentList)
+            {
+                content += addRow(comment.PullRequestId.ToString(), comment.JoinedComments, comment.FilePath, "https://msasg.visualstudio.com/DefaultCollection/Bing_UX/Bing_UX%20Team/_git/snrcode/pullrequest/" + comment.PullRequestId + "#_a=overview");
+            }
+            
             content += "</table>";
             content += addDisclaimer();
             content += "</html>";
@@ -44,9 +49,9 @@ namespace makemesmarter.Helpers
             return "<tr> <th> PR_ID</th> <th>Comment</th> <th> File</th></tr>";
         }
 
-        private static string addRow(string PRId , string comment, string file )
+        private static string addRow(string PRId , string comment, string file , string url)
         {
-            return string.Format("<tr> <td> {0} </td> <td> {1} </td> <td> {2} </td> </tr>", PRId, comment, file);
+            return string.Format("<tr> <td> <a href='{3}'> {0} </a> </td> <td> {1} </td> <td> {2} </td> </tr>", PRId, comment, file, url);
         }
     }
 }

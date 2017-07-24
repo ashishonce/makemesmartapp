@@ -15,3 +15,8 @@ select,
 textarea {
     max-width: 280px;
 }
+
+table td, table th{
+    padding : 10px;
+    min-width: 100px;
+}
