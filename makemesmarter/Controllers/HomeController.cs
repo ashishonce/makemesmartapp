@@ -9,10 +9,8 @@ using System.Web.Mvc;
 using makemesmarter.Models;
 using System.Threading.Tasks;
 using makemesmarter.Helpers;
-using System.Threading.Tasks;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System.Collections.Generic;
 
 namespace makemesmarter.Controllers
 {
@@ -39,6 +37,25 @@ namespace makemesmarter.Controllers
                 return HttpNotFound();
             }
             return View(user);
+        }
+
+        // Post: Home/IsValuable/
+        public bool IsValuable(CommentCategory category, CommentStatus status, int commentLength, int numUpVotes, int threadLength, bool IsCodeChange)
+        {
+            var weight = 0;
+            weight += CommentAnalyser.NumUpVotesWeight(numUpVotes);
+            weight += CommentAnalyser.StatusWeight(status);
+            weight += CommentAnalyser.CodeChangeWeight(IsCodeChange);
+            weight += CommentAnalyser.CategoryWeight(category);
+            weight += CommentAnalyser.ThreadLengthWeight(threadLength);
+
+            var weightedAverage = weight / 5;
+            if (weightedAverage >= 30 && weightedAverage <= 54)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         // GET: Home/Create
@@ -121,7 +138,7 @@ namespace makemesmarter.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task <ActionResult> GetSuggestions(string id)
+        public async Task<ActionResult> GetSuggestions(string id)
         {
             var data = await SuggestionModel.GetSuggestions(id);
             var suggestionsString = FinalSuggestionGenerator.Generate(data);
@@ -145,16 +162,16 @@ namespace makemesmarter.Controllers
                 new Tuple<string, string>("riniga@microsoft.com", "richa nigam")
             };
 
-            foreach(var mailAddress in mailAddressList)
+            foreach (var mailAddress in mailAddressList)
             {
                 EmailAddress testemail = new EmailAddress();
                 testemail.Email = mailAddress.Item1;
                 testemail.Name = mailAddress.Item2;
                 listmail.Add(testemail);
             }
-            
+
             var content = MailContentCreator.CreatePendingCommentResponse(); ;
-      
+
             await SendEmail(listmail, "Pending CR comments", content);
             this.Response.StatusCode = (int)HttpStatusCode.OK;
             return content;

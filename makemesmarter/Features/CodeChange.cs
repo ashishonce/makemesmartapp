@@ -6,10 +6,10 @@ using makemesmarter.Models;
 
 namespace makemesmarter.Features
 {
-    public class Status
+    public class CodeChange
     {
-        public CommentStatus status { get; set; }
+        public bool IsCodeChange;
 
-        public int weight { get; set; }
+        public int weight;
     }
 }

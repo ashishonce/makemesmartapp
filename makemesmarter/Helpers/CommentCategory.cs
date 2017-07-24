@@ -20,6 +20,7 @@ namespace makemesmarter.Models
         Performance,
         SupportingLibrary,
         Defect,
-        APICalls
+        APICalls,
+        None
     }
 }

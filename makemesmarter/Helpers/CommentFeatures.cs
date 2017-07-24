@@ -9,19 +9,16 @@ namespace makemesmarter.Models
 {
     public class CommentFeatures
     {
-        public Category category;
+        public Category category { get; set; }
 
-        public Status status;
+        public Status status { get; set; }
 
-        public Filetype fileType;
+        public CommentLength commentLength { get; set; }
 
-        public CommentLength commentLength;
+        public Upvotes numUpVotes { get; set; }
 
-        public Upvotes numUpVotes;
+        public ThreadLength threadLength { get; set; }
 
-        public ThreadLength threadLength;
-
-        public Sentiment sentiment;
-
+        public CodeChange codeChange { get; set; }
     }
 }
