@@ -39,25 +39,6 @@ namespace makemesmarter.Controllers
             return View(user);
         }
 
-        // Post: Home/IsValuable/
-        public bool IsValuable(CommentCategory category, CommentStatus status, int commentLength, int numUpVotes, int threadLength, bool IsCodeChange)
-        {
-            var weight = 0;
-            weight += CommentAnalyser.NumUpVotesWeight(numUpVotes);
-            weight += CommentAnalyser.StatusWeight(status);
-            weight += CommentAnalyser.CodeChangeWeight(IsCodeChange);
-            weight += CommentAnalyser.CategoryWeight(category);
-            weight += CommentAnalyser.ThreadLengthWeight(threadLength);
-
-            var weightedAverage = weight / 5;
-            if (weightedAverage >= 30 && weightedAverage <= 54)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         // GET: Home/Create
         public ActionResult Create()
         {

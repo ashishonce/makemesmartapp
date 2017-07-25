@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using makemesmarter.Models;
+using makemesmarter.Helpers;
 
 namespace makemesmarter.Controllers
 {
@@ -167,6 +168,24 @@ namespace makemesmarter.Controllers
                 return View("CommentSearch");
             }
         }
+
+        public async Task UpdateCommentUsefulnessScores()
+        {
+            foreach(var comment in db.CommentThreads)
+            {
+                comment.IsUseful = CommentValueAnalyser.IsValuable(
+                    CommentCategory.Defect,
+                    CommentStatus.Pending,
+                    comment.initiatorCommentLength,
+                    comment.CumlativeLikes,
+                    comment.ThreadCount) ? 1 : 0;
+                db.Entry(comment).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
+
+            return ;
+        }
+
 
         protected override void Dispose(bool disposing)
         {

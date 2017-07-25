@@ -36,6 +36,8 @@ namespace makemesmarter.Models
 
         public int initiatorCommentLength { get; set; }
 
+        public string commentCategory { get; set; }
+
         public string PrAuthorId
         {
             get; set;

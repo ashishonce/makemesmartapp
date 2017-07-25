@@ -221,6 +221,7 @@
     <Compile Include="Helpers\CommentCategory.cs" />
     <Compile Include="Helpers\CommentFeatures.cs" />
     <Compile Include="Helpers\CommentStatus.cs" />
+    <Compile Include="Helpers\CommentValueAnalyser.cs" />
     <Compile Include="Helpers\CommonSchemas.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\Entity.cs" />
@@ -242,6 +243,10 @@
     <Compile Include="Migrations\201707241333209_Initial_updateComment.cs" />
     <Compile Include="Migrations\201707241333209_Initial_updateComment.Designer.cs">
       <DependentUpon>201707241333209_Initial_updateComment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707250617339_Initial_updateCommentCategory.cs" />
+    <Compile Include="Migrations\201707250617339_Initial_updateCommentCategory.Designer.cs">
+      <DependentUpon>201707250617339_Initial_updateCommentCategory.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChartModel.cs" />
@@ -351,6 +356,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707241333209_Initial_updateComment.resx">
       <DependentUpon>201707241333209_Initial_updateComment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707250617339_Initial_updateCommentCategory.resx">
+      <DependentUpon>201707250617339_Initial_updateCommentCategory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
