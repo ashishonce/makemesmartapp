@@ -38,20 +38,23 @@
             </th>
         </tr>
             
-        
-        @foreach (var modle in tempModle)
+        @if (tempModle != null)
         {
-        <tr>
-            @{
-                var link = "https://msasg.visualstudio.com/DefaultCollection/Bing_UX/Bing_UX%20Teams/_git/snrcode/pullrequest/" + @modle.PullRequestId;
-                <td><a href="@link"> @modle.PullRequestId</a></td>
-                <td>@modle.JoinedComments</td>
-                <td>@modle.Status</td>
-                <td>@modle.CommentInitiator</td>
-                <td>@modle.PrAuthorId</td>
-            }
-        </tr>
-        }
+            @foreach (var modle in tempModle)
+            {
+                <tr>
+                    @{
+                        var link = "https://msasg.visualstudio.com/DefaultCollection/Bing_UX/Bing_UX%20Teams/_git/snrcode/pullrequest/" + @modle.PullRequestId;
+                        <td><a href="@link"> @modle.PullRequestId</a></td>
+                        <td>@modle.JoinedComments</td>
+                        <td>@modle.Status</td>
+                        <td>@modle.CommentInitiator</td>
+                        <td>@modle.PrAuthorId</td>
+                    }
+                </tr>
+             }
+         }
+        
     </table>
    
 
