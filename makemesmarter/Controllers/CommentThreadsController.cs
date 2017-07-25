@@ -171,21 +171,50 @@ namespace makemesmarter.Controllers
 
         public async Task UpdateCommentUsefulnessScores()
         {
-            foreach(var comment in db.CommentThreads)
+            var count = 0;
+            foreach (var comment in db.CommentThreads)
             {
-                comment.IsUseful = CommentValueAnalyser.IsValuable(
-                    CommentCategory.Defect,
-                    CommentStatus.Pending,
+                if (count < 10)
+                {
+                    comment.IsUseful = CommentValueAnalyser.IsValuable(
+                    comment.commentCategory,
+                    comment.Status,
                     comment.initiatorCommentLength,
                     comment.CumlativeLikes,
                     comment.ThreadCount) ? 1 : 0;
-                db.Entry(comment).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                    db.Entry(comment).State = EntityState.Modified;
+                }
+                else
+                {
+                    break;
+                }
             }
 
-            return ;
+                await db.SaveChangesAsync();
+                return ;
         }
 
+        public async Task UpdateCommentCategories()
+        {
+            var count = 0;
+            foreach (var comment in db.CommentThreads)
+            {
+                if (count < 10)
+                {
+                    var category = CommentAnalyser.GetLUISCategory(comment.JoinedComments.Split('<')[0], null);
+                    comment.commentCategory = category;
+                    db.Entry(comment).State = EntityState.Modified;
+                    count++;
+                }
+                else
+                {
+                    break;
+                }             
+            }
+
+            await db.SaveChangesAsync();
+            return;
+        }
 
         protected override void Dispose(bool disposing)
         {

@@ -21,6 +21,8 @@
 
         public const string LUISUrlFormat = "https://api.projectoxford.ai/luis/v1/application?id=30aa83c1-7760-4a7d-84db-fd9a31a451ed&subscription-key=af79ebce73804e53b12f797a6cfc3909&q={0}";
 
+        public const string LUISUrlNew = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/2ae8f4bb-bdef-4cee-aaeb-d70b7931cdf1?subscription-key=69cca90cd10c4d12917bfd509b51f6f8&verbose=true&timezoneOffset=0&q={0}";
+
         public enum Intents
         {
             CHITCHAT = 0,

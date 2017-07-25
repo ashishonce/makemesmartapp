@@ -8,17 +8,21 @@ namespace makemesmarter.Helpers
 {
     public static class CommentValueAnalyser
     {
-        public static  bool IsValuable(CommentCategory category, CommentStatus status, int commentLength, int numUpVotes, int threadLength)
+        public static  bool IsValuable(string category, string status, int commentLength, int numUpVotes, int threadLength)
         {
             var weight = 0;
+            CommentCategory commentCategory;
+            CommentStatus commentStatus;
+            Enum.TryParse(category, out commentCategory);
+            Enum.TryParse(category, out commentStatus);
             weight += CommentAnalyser.NumUpVotesWeight(numUpVotes);
-            weight += CommentAnalyser.StatusWeight(status);
+            weight += CommentAnalyser.StatusWeight(commentStatus);
             //weight += CommentAnalyser.CodeChangeWeight(IsCodeChange);
-            weight += CommentAnalyser.CategoryWeight(category);
+            weight += CommentAnalyser.CategoryWeight(commentCategory);
             weight += CommentAnalyser.ThreadLengthWeight(threadLength);
 
-            var weightedAverage = weight / 5;
-            if (weightedAverage >= 30 && weightedAverage <= 54)
+            var weightedAverage = weight / 3;
+            if (weightedAverage >= 25)
             {
                 return true;
             }

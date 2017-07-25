@@ -116,6 +116,39 @@ namespace makemesmarter.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<ActionResult> GetReviewerScore(string fileType)
+        {
+            IList<DisplayReviewScore> model = new List<DisplayReviewScore>();
+                if (!string.IsNullOrWhiteSpace(fileType) && !fileType.Equals("default"))
+                {
+                var comentsByFileType = db.CommentThreads.Where(x => x.FileType.Equals(fileType)).ToList();
+                var reviewersByUsefulCommentsAndSentimentsValue = comentsByFileType.GroupBy(o => o.CommentInitiator)
+                    .Select(g => new { reviewer = g.Key, totalUseful = g.Sum(i => i.IsUseful), totalSentiment = g.Sum(i => i.SentimentValue) });
+
+                foreach (var group in reviewersByUsefulCommentsAndSentimentsValue)
+                {
+                    var score = (group.totalUseful * 10 + group.totalSentiment * 2) / 12;
+                    model.Add(new DisplayReviewScore { Alias = group.reviewer, Score = score });
+                }
+            }
+            else 
+            {
+                var reviewersByUsefulCommentsAndSentimentsValue = db.CommentThreads.GroupBy(o => o.CommentInitiator)
+                    .Select(g => new { reviewer = g.Key, totalUseful = g.Sum(i => i.IsUseful), totalSentiment = g.Sum(i => i.SentimentValue) });
+
+                foreach (var group in reviewersByUsefulCommentsAndSentimentsValue)
+                {
+                    var score = (group.totalUseful * 10 + group.totalSentiment * 2) / 12;
+                    model.Add(new DisplayReviewScore { Alias = group.reviewer, Score = score });
+                }
+            }
+
+           var sortedModel = model.OrderByDescending(x => x.Score).ToList();
+            ViewData["Model"] = sortedModel;
+            ViewData["filetype"] = fileType;
+            return View("ReviewerScore");
+        }
+
         public async Task<ActionResult> GetTopReviewers(string fileType)
         {
             if (!string.IsNullOrWhiteSpace(fileType) && !fileType.Equals("default"))
@@ -146,20 +179,20 @@ namespace makemesmarter.Controllers
                        Score = g.Sum(ri => ri.Score)
                    });
                 var finalscore = (from r in db.ReviewerDatas
-                              join t in total
-                              on r.ReviewerID equals t.ReviewerId
-                              orderby t.Score descending
-                              select new DisplayReviewScore
-                              {
-                                  Alias = r.Alias,
-                                  FirstName = r.FirstName,
-                                  LastName = r.LastName,
-                                  Score = t.Score
-                              });
+                                  join t in total
+                                  on r.ReviewerID equals t.ReviewerId
+                                  orderby t.Score descending
+                                  select new DisplayReviewScore
+                                  {
+                                      Alias = r.Alias,
+                                      FirstName = r.FirstName,
+                                      LastName = r.LastName,
+                                      Score = t.Score
+                                  });
                 ViewData["Model"] = finalscore;
                 ViewData["filetype"] = "default";
             }
-            return View("ReviewerScore");            
+            return View("ReviewerScore");
         }
 
         protected override void Dispose(bool disposing)

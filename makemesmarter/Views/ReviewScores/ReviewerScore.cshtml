@@ -2,9 +2,8 @@
 @{
 	ViewBag.Title = "ReviewerScore";
 	Layout = "~/Views/Shared/_Layout.cshtml";
-	var tempModle = (IQueryable<makemesmarter.Models.DisplayReviewScore>)ViewData["Model"];
+	var tempModle = (IList<makemesmarter.Models.DisplayReviewScore>)ViewData["Model"];
 	var filetype = ViewData["filetype"];
-
 }
 
 <!DOCTYPE html>
@@ -14,7 +13,7 @@
 	<title></title>
 	<script type="text/javascript">
 		function getReviewers(value) {
-			window.location.href = '/ReviewScores/GetTopReviewers?&filetype=' + value;
+		    window.location.href = '/ReviewScores/GetReviewerScore?&filetype=' + value;
 		}
 	</script>
 
@@ -22,22 +21,18 @@
 <body>
 
 	<h2>Top Reviewers</h2>
+
 	<select name="dropdown" id="filetypeSelect" onchange="getReviewers(this.value)">
-		<option value="default">All</option>
-		<option value="script" >Script</option>
-		<option value="style">Style</option>
-		<option value="CS">CS</option>
-		<option value="config">Config</option>
-		<option value="views">Views</option>
+		<option value="All">All</option>
+		<option value="ts" >ts</option>
+		<option value="css">css</option>
+		<option value="cs">cs</option>
 	</select>
 
 	<table>
 		<tr>
 			<th>
 				Alias
-			</th>
-			<th colspan="2">
-				Name
 			</th>
 			<th>
 				Score
@@ -51,7 +46,6 @@
 				<tr>
 					@{
 						<td>@modle.Alias</td>
-						<td colspan="2">@modle.FirstName &nbsp; @modle.LastName</td>
 						<td>@modle.Score</td>
 					}
 				</tr>
@@ -64,6 +58,5 @@
 			</tr>
 		}
 	</table>
-
 </body>
 </html>

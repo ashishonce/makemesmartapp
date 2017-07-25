@@ -4,6 +4,10 @@ using System.Linq;
 using System.Web;
 using makemesmarter.Features;
 using makemesmarter.Models;
+using Newtonsoft.Json.Linq;
+using System.Web.Mvc;
+using makemesmarter.Models;
+using Newtonsoft.Json;
 
 namespace makemesmarter.Helpers
 {
@@ -45,7 +49,7 @@ namespace makemesmarter.Helpers
             }
             else if (status == CommentStatus.WontFix)
             {
-                return -60;
+                return -20;
             }
             else
             {
@@ -97,7 +101,7 @@ namespace makemesmarter.Helpers
             }
             else if (category == CommentCategory.None)
             {
-                return -40;
+                return 10;
             }
             else
             {
@@ -107,17 +111,40 @@ namespace makemesmarter.Helpers
 
         public static int ThreadLengthWeight(int threadLength)
         {
-            if (threadLength > 10)
+            if (threadLength > 4)
             {
                 return 30;
             }
-            else if (threadLength > 0 && threadLength < 10)
+            else if (threadLength > 0 && threadLength < 4)
             {
                 return threadLength + 20;
             }
             else
             {
                 return 0;
+            }
+        }
+
+        public static string GetLUISCategory(string queryString, IList<string> entities)
+        {
+            try
+            {
+                // Call Luis to get the intent and entities for a given query
+                var luisUrl = string.Format(Constants.LUISUrlNew, queryString);
+                string intent = string.Empty;
+                using (var wc = new WebDownload())
+                {
+                    var json = wc.DownloadString(luisUrl);
+                    JObject jsonObject = JObject.Parse(json);
+
+                    intent = (jsonObject["intents"][0])["intent"].ToString();
+                }
+
+                return intent;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
             }
         }
     }
