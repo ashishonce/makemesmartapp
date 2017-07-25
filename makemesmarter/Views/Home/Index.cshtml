@@ -1,33 +1,30 @@
 ﻿@model IEnumerable<makemesmarter.Models.User>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = ViewData["Title"];
+    var chartLink = (List<Tuple < string,string>>) ViewData["ChartListLink"];
+    
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
+<div class="row-fluid">
+    <div class="span3">
+        @foreach (var item in chartLink)
+        {
+            <div>
+                @Html.ActionLink(item.Item1, item.Item2)
+            </div>
+        }
+    </div>
+    <div class="span6">
+        @RenderPage("~/Views/ChartTypes/Pie.cshtml")
+    </div>
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UserId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.UserId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.UserId })
-        </td>
-    </tr>
-}
 
-</table>
+
+
+
+
+

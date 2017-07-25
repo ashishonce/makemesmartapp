@@ -147,6 +147,9 @@ namespace makemesmarter.Controllers
 
         public async Task<ActionResult> GetFilteredComments(string text, string author, string commenter, string fileType)
         {
+            ViewData["text"] = text ?? "";
+            ViewData["author"] = author ?? "";
+            ViewData["commenter"] = commenter ?? "";
             if(!string.IsNullOrWhiteSpace(text))
             {
                 var resultModel = db.CommentThreads.Where(x => x.JoinedComments.Contains(text)).ToList();
@@ -186,6 +189,10 @@ namespace makemesmarter.Controllers
             return ;
         }
 
+        public async Task<ActionResult> ShowDefaultChart()
+        {
+            return View("DefaultChartView");
+        }
 
         protected override void Dispose(bool disposing)
         {

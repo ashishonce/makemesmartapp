@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using makemesmarter.Helpers;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using Newtonsoft.Json;
 
 namespace makemesmarter.Controllers
 {
@@ -21,8 +22,39 @@ namespace makemesmarter.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            ViewData["Title"] = "Code-Review Analytics";
+            AddChartLinks();
             return View(db.Users.ToList());
         }
+
+        private void AddChartLinks()
+        {
+            var chartLinks = new List<Tuple<string, string>>();
+            chartLinks.Add(new Tuple<string, string>("OverAll Distribution", "CommentsOverAll"));
+            chartLinks.Add(new Tuple<string, string>("FileBased-Distribution", "CommentsByFileType"));
+            ViewData["ChartListLink"] = chartLinks;
+        }
+
+        public ActionResult CommentsOverAll()
+        {
+            ViewData["Title"] = "Code-Review Analytics : Comments OverAll";
+            ViewData["ChartType"] = "Pie";
+            ViewBag.ChartTitle = "Comment OverAll Distribution";
+            AddChartLinks();
+            ViewBag.DataPoints = JsonConvert.SerializeObject(DataService.GetCommentOverAllPie(db.CommentThreads), _jsonSetting);
+            return View("Index");
+        }
+
+        public ActionResult CommentsByFileType()
+        {
+            ViewData["Title"] = "Code-Review Analytics : Comments File Base";
+            ViewData["ChartType"] = "Pie";
+            ViewBag.ChartTitle = "Comments File Base";
+            AddChartLinks();
+            ViewBag.DataPoints = JsonConvert.SerializeObject(DataService.GetCommentByFileTypePie(db.CommentThreads), _jsonSetting);
+            return View("Index");
+        }
+
 
         // GET: Home/Details/5
         public ActionResult Details(string id)
@@ -189,5 +221,7 @@ namespace makemesmarter.Controllers
             }
             base.Dispose(disposing);
         }
+
+        JsonSerializerSettings _jsonSetting = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore };
     }
 }

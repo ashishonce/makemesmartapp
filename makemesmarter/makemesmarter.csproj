@@ -197,6 +197,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\ChartTypesController.cs" />
     <Compile Include="Controllers\CommentThreadsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReviewerDatasController.cs" />
@@ -251,6 +252,8 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChartModel.cs" />
     <Compile Include="Models\CommentThread.cs" />
+    <Compile Include="Models\DataPoint.cs" />
+    <Compile Include="Models\DataService.cs" />
     <Compile Include="Models\DisplayReviewScore.cs" />
     <Compile Include="Models\makemesmarterContext.cs" />
     <Compile Include="Models\QueryModel.cs" />
@@ -338,6 +341,25 @@
     <Content Include="Views\ReviewerDatas\Edit.cshtml" />
     <Content Include="Views\ReviewerDatas\Index.cshtml" />
     <Content Include="Views\ReviewScores\ReviewerScore.cshtml" />
+    <Content Include="Views\ChartTypes\DefaultChartView.cshtml" />
+    <Content Include="Views\ChartTypes\Area.cshtml" />
+    <Content Include="Views\ChartTypes\Bar.cshtml" />
+    <Content Include="Views\ChartTypes\Bubble.cshtml" />
+    <Content Include="Views\ChartTypes\Column.cshtml" />
+    <Content Include="Views\ChartTypes\Doughnut.cshtml" />
+    <Content Include="Views\ChartTypes\Line.cshtml" />
+    <Content Include="Views\ChartTypes\Pie.cshtml" />
+    <Content Include="Views\ChartTypes\Scatter.cshtml" />
+    <Content Include="Views\ChartTypes\Spline.cshtml" />
+    <Content Include="Views\ChartTypes\SplineArea.cshtml" />
+    <Content Include="Views\ChartTypes\StackedArea.cshtml" />
+    <Content Include="Views\ChartTypes\StackedArea100.cshtml" />
+    <Content Include="Views\ChartTypes\StackedBar.cshtml" />
+    <Content Include="Views\ChartTypes\StackedBar100.cshtml" />
+    <Content Include="Views\ChartTypes\StackedColumn.cshtml" />
+    <Content Include="Views\ChartTypes\StackedColumn100.cshtml" />
+    <Content Include="Views\ChartTypes\StepArea.cshtml" />
+    <Content Include="Views\ChartTypes\StepLine.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

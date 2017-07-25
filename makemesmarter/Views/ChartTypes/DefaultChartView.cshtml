@@ -1,0 +1,44 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js" ></script>
+    <script>
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                theme: "theme2",
+                animationEnabled: true,
+                title: {
+                    text: "Simple Column Chart in ASP.NET MVC"
+                },
+                subtitles: [
+                    { text: "Try Resizing the Browser" }
+                ],
+                data: [
+                {
+                    type: "pie", //change type to bar, line, area, pie, etc
+                    dataPoints: [
+                     { y: 12.48, legendText: "Google", label: "Google" },
+                     { y: 10.39, legendText: "Bing", label: "Bing" },
+                     { y: 7.78, legendText: "Yahoo!", label: "Yahoo!" },
+                     { y: 7.14, legendText: "Baidu", label: "Baidu" },
+                     { y: 0.22, legendText: "Ask", label: "Ask" },
+                     { y: 0.15, legendText: "AOL", label: "AOL" },
+                     { y: 1.84, legendText: "Others", label: "Others" }
+                    ]
+                }
+                ]
+            });
+            chart.render();
+        };
+    </script>
+</head>
+<body>
+    <div>
+        <div id="chartContainer"></div>
+    </div>
+</body>
+</html>

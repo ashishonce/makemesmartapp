@@ -1,12 +1,14 @@
 ﻿@model IEnumerable<makemesmarter.Models.CommentThread>
-
 @{
     ViewBag.Title = "CommentSearch";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var tempModle = (IEnumerable < makemesmarter.Models.CommentThread >) ViewData["Model"];
+    var text = (string)ViewData["text"];
+    var commenter = (string)ViewData["commenter"];
+    var author = (string)ViewData["author"];
 }
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -14,9 +16,9 @@
 </head>
 <body>
     <div>
-        <label for="searchTxt" value="Comment Text">Comment Text</label><input id="searchTxt" name="searchTxt" value="" placeholder="enter min 4 chars to search" />
-        <label for="csearchTxt" value="Commenter">Commented by</label><input id="csearchTxt" name="csearchTxt" value="" placeholder="enter commenter name" />
-        <label for="asearchTxt" value="Commenter">Author</label><input id="asearchTxt" name="asearchTxt" value="" placeholder="enter author name" />
+        <label for="searchTxt" value="Comment Text">Comment Text</label><input class="cmntSearchinput" id="searchTxt" name="searchTxt" value="@text" placeholder="enter min 4 chars to search" />
+        <label for="csearchTxt" value="Commenter">Commented by</label><input class="cmntSearchinput" id="csearchTxt" name="csearchTxt" value="@commenter" placeholder="enter commenter name" />
+        <label for="asearchTxt" value="Commenter">Author</label><input class="cmntSearchinput" id="asearchTxt" name="asearchTxt" value="@author" placeholder="enter author name" />
         <button value="Search" onclick="window.location.href = '/CommentThreads/GetFilteredComments?&text=' + document.getElementById('searchTxt').value + '&commenter=' + document.getElementById('csearchTxt').value + '&author=' + document.getElementById('asearchTxt').value">Search</button>
     </div>
     <table>
@@ -37,10 +39,9 @@
                 Author
             </th>
         </tr>
-            
         @if (tempModle != null)
         {
-            @foreach (var modle in tempModle)
+            foreach (var modle in tempModle)
             {
                 <tr>
                     @{
@@ -54,9 +55,6 @@
                 </tr>
              }
          }
-        
     </table>
-   
-
 </body>
 </html>

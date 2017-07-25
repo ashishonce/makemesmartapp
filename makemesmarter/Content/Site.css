@@ -20,3 +20,11 @@ table td, table th{
     padding : 10px;
     min-width: 100px;
 }
+
+
+.cmntSearchinput
+{
+    height:40px;
+    margin:20px;
+    padding:8px;
+}
