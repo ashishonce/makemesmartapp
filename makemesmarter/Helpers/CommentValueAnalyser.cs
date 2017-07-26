@@ -8,22 +8,36 @@ namespace makemesmarter.Helpers
 {
     public static class CommentValueAnalyser
     {
-        public static  bool IsValuable(CommentCategory category, CommentStatus status, int commentLength, int numUpVotes, int threadLength)
+        public static  int IsValuable(string category, string status, int commentLength, int numUpVotes, int threadLength, List<Tuple<string, double>> statusWeights)
         {
             var weight = 0;
-            weight += CommentAnalyser.NumUpVotesWeight(numUpVotes);
-            weight += CommentAnalyser.StatusWeight(status);
-            //weight += CommentAnalyser.CodeChangeWeight(IsCodeChange);
-            weight += CommentAnalyser.CategoryWeight(category);
-            weight += CommentAnalyser.ThreadLengthWeight(threadLength);
+            CommentCategory commentCategory;
+            CommentStatus commentStatus;
+            Enum.TryParse(category, true, out commentCategory);
+            Enum.TryParse(status, true, out commentStatus);
 
-            var weightedAverage = weight / 5;
-            if (weightedAverage >= 30 && weightedAverage <= 54)
+            var weighttuple = statusWeights.Find(x => x.Item1.Equals(commentStatus));
+            var weightforStatus = 0.0;
+            if (weighttuple != null)
             {
-                return true;
+                weightforStatus = weighttuple.Item2;
+             }
+            else
+            {
+                weightforStatus = 0.5;
             }
 
-            return false;
+            var commonStatusWeight = CommentAnalyser.StatusWeight(commentStatus);
+
+            //weight += CommentAnalyser.NumUpVotesWeight(numUpVotes);
+            weight += (int)weightforStatus*100;
+
+            //weight += CommentAnalyser.CodeChangeWeight(IsCodeChange);
+            weight += CommentAnalyser.CategoryWeight(commentCategory);
+            weight += CommentAnalyser.ThreadLengthWeight(threadLength);
+
+            var weightedAverage = (weight * 100 / 3 )/ 70 ;
+            return weightedAverage;
         }
 
     }

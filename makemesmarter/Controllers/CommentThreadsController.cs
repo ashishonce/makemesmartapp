@@ -164,6 +164,7 @@ namespace makemesmarter.Controllers
                     resultModel = resultModel.Where(x => x.PrAuthorId.Contains(author)).ToList();
                 }
 
+                resultModel.ForEach(x => x.JoinedComments = x.JoinedComments.Replace(text, "<strong>"+ text + "</strong>"));
                 ViewData["Model"] = resultModel;
                 return View("CommentSearch");
             }
@@ -174,24 +175,63 @@ namespace makemesmarter.Controllers
 
         public async Task UpdateCommentUsefulnessScores()
         {
-            foreach(var comment in db.CommentThreads)
+            var statusBySortedList = db.CommentThreads.GroupBy(g => g.Status).Select(t => new { count = t.Count(), key = t.Key });
+            var count = db.CommentThreads.Count();
+            var StatusWeight = new List<Tuple<string, double>>();
+            foreach(var item in statusBySortedList)
             {
-                comment.IsUseful = CommentValueAnalyser.IsValuable(
-                    CommentCategory.Defect,
-                    CommentStatus.Pending,
-                    comment.initiatorCommentLength,
-                    comment.CumlativeLikes,
-                    comment.ThreadCount) ? 1 : 0;
-                db.Entry(comment).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                var tempWeight = ((float)item.count) / count;
+                StatusWeight.Add(new Tuple<string, double>(item.key, tempWeight));
             }
 
-            return ;
+            foreach (var comment in db.CommentThreads)
+            {
+                    comment.IsUseful = CommentValueAnalyser.IsValuable(
+                    comment.commentCategory,
+                    comment.Status,
+                    comment.initiatorCommentLength,
+                    comment.CumlativeLikes,
+                    comment.ThreadCount,
+                    StatusWeight);
+                    db.Entry(comment).State = EntityState.Modified;
+            }
+
+                await db.SaveChangesAsync();
+                return ;
         }
 
-        public async Task<ActionResult> ShowDefaultChart()
+        public async Task GetSentimentsForALL(string text)
         {
-            return View("DefaultChartView");
+            //await db.SaveChangesAsync();
+            var count = 0;
+            foreach (var comment in db.CommentThreads)
+            {
+                count++;
+                if (count < 100)
+                    continue;
+                comment.SentimentValue = await SentimentDetector.GetSentiment(comment.JoinedComments);
+                db.Entry(comment).State = EntityState.Modified;
+                
+            }
+
+            await db.SaveChangesAsync();
+            return;
+        }
+
+        public async Task UpdateCommentCategories()
+        {
+            var count = 0;
+             foreach (var comment in db.CommentThreads)
+            {
+                if(string.IsNullOrWhiteSpace(comment.commentCategory))
+                    {
+                    comment.commentCategory = "Design";
+                    db.Entry(comment).State = EntityState.Modified;
+                }
+            }
+
+            await db.SaveChangesAsync();
+            return;
         }
 
         protected override void Dispose(bool disposing)

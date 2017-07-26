@@ -1,5 +1,3 @@
-using makemesmarter.Models;
-
 namespace makemesmarter.Migrations
 {
     using System;
@@ -11,8 +9,7 @@ namespace makemesmarter.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(makemesmarter.Models.makemesmarterContext context)
@@ -22,13 +19,13 @@ namespace makemesmarter.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.
             //
-            context.Users.AddOrUpdate(
-              p => p.UserId,
-              new User { UserId="1",Name = "Andrew Peters",Token = "cOmtv712ZRM:APA91bHnt4JEtNPkAMtTy6d6xKVrlLHjcZl9vz8MpwDSipGcwjF5FZPtwfn20JLIGoWeC9tlK1BhNucKivwPNRuMaC_R4RBN3gHa0g-0NZz1sQ64SkYKvQMoqwvBVwr-y2Lzqtrrx8uR" },
-              new User { UserId="2",Name = "Brice Lambson", Token = "cOmtv712ZRM:APA91bHnt4JEtNPkAMtTy6d6xKVrlLHjcZl9vz8MpwDSipGcwjF5FZPtwfn20JLIGoWeC9tlK1BhNucKivwPNRuMaC_R4RBN3gHa0g-0NZz1sQ64SkYKvQMoqwvBVwr-y2Lzqtrrx8uR" },
-              new User { UserId="3",Name = "Rowan Miller" , Token = "q" }
-            );
-
+            //    context.People.AddOrUpdate(
+            //      p => p.FullName,
+            //      new Person { FullName = "Andrew Peters" },
+            //      new Person { FullName = "Brice Lambson" },
+            //      new Person { FullName = "Rowan Miller" }
+            //    );
+            //
         }
     }
 }
