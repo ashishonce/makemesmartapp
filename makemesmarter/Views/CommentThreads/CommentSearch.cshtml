@@ -30,9 +30,6 @@
                 Comment
             </th>
             <th>
-                PR Title
-            </th>
-            <th>
                 Commentor
             </th>
             <th>
@@ -48,7 +45,6 @@
                         var link = "https://msasg.visualstudio.com/DefaultCollection/Bing_UX/Bing_UX%20Teams/_git/snrcode/pullrequest/" + @modle.PullRequestId;
                         <td><a href="@link"> @modle.PullRequestId</a></td>
                         <td><p>@Html.Raw(modle.JoinedComments)</p></td>
-                        <td>@modle.Status</td>
                         <td>@modle.CommentInitiator</td>
                         <td>@modle.PrAuthorId</td>
                     }

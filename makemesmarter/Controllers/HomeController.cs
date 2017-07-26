@@ -45,7 +45,7 @@ namespace makemesmarter.Controllers
             ViewData["ChartType"] = "Pie";
             ViewBag.ChartTitle = "OverAll Distribution of Comments";
             ViewBag.DataPoints = JsonConvert.SerializeObject(DataService.GetCommentOverAllPie(db.CommentThreads), _jsonSetting);
-            return View("Index");
+            return View("Overall");
         }
 
         public ActionResult CommentsByFileType()
@@ -54,7 +54,7 @@ namespace makemesmarter.Controllers
             ViewData["ChartType"] = "Pie";
             ViewBag.ChartTitle = "File Based Distribution of Comments";
             ViewBag.DataPoints = JsonConvert.SerializeObject(DataService.GetCommentByFileTypePie(db.CommentThreads), _jsonSetting);
-            return View("Index");
+            return View("FileBased");
         }
 
         public ActionResult CommentsCategoryDistibution()
@@ -62,8 +62,8 @@ namespace makemesmarter.Controllers
             ViewData["Title"] = "Code-Review Analytics : Comments Categories";
             ViewData["ChartType"] = "Column";
             ViewBag.ChartTitle = "Category Distribution of Comments";
-            ViewBag.DataPoints = JsonConvert.SerializeObject(DataService.GetCommentCategoryColumns(db.CommentThreads.Take(150).ToList()), _jsonSetting);
-            return View("Index");
+            ViewBag.DataPoints = JsonConvert.SerializeObject(DataService.GetCommentCategoryColumns(db.CommentThreads.Take(200).ToList()), _jsonSetting);
+            return View("Overall");
         }
 
         // GET: Home/Details/5

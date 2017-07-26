@@ -1,0 +1,16 @@
+﻿@model IEnumerable<makemesmarter.Models.User>
+
+@{
+    ViewBag.Title = ViewData["Title"];
+    var chartLink = (List<Tuple<string, string>>)ViewData["ChartListLink"];
+    var chartype = (string)ViewData["ChartType"];
+    var ViewPath = "~/Views/ChartTypes/" + chartype + ".cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row-fluid">
+    <div class="span6">
+        @RenderPage(ViewPath);
+    </div>
+</div>

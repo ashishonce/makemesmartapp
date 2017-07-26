@@ -1,36 +1,29 @@
-﻿@model IEnumerable<makemesmarter.Models.User>
+﻿<!DOCTYPE html>
+<html>
+@model IEnumerable<makemesmarter.Models.User>
 
 @{
     ViewBag.Title = ViewData["Title"];
     var chartLink = (List<Tuple < string,string>>) ViewData["ChartListLink"];
     var chartype = (string) ViewData["ChartType"];
     var ViewPath = "~/Views/ChartTypes/" + chartype + ".cshtml";
-
 }
-<h2>@ViewBag.Title</h2>
 
-<div class="row-fluid">
-    <div class="span3">
-        @*@foreach (var item in chartLink)
-        {
-            <div>
-                @Html.ActionLink(item.Item1, item.Item2)
-            </div>
-        }
-        <br />*@
-        
+<body>
+    <h2>@ViewBag.Title</h2>
+    @Styles.Render("~/Content/css")
 
-        
+    <div class="">
+        @*@RenderPage("~/Views/ChartTypes/Pie.cshtml")*@
+        <span class="frameSpacing"> <iframe src="/home/CommentsOverAll" height="500" class="frames"></iframe></span>
+        <span class="frameSpacing"> <iframe src="/home/CommentsByFileType" height="500" class="frames"></iframe></span>
+        <span class="frameSpacing"> <iframe src="/CommentThreads/GetFilteredComments?&text=" height="500" class="frames"></iframe></span>
+        <span class="frameSpacing"> <iframe src="/CommentThreads" height="500" class="frames"></iframe></span>
+        <span class="frameSpacing"> <iframe src="/ReviewScores/GetReviewerScore" height="500" class="frames"></iframe></span>
     </div>
-    <div class="span6">
-        @RenderPage(ViewPath);
     </div>
-
-</div>
-
-
-
-
-
-
-
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+   
+</body>
+</html>

@@ -366,6 +366,8 @@
     <Content Include="Views\CommentThreadsControl\Details.cshtml" />
     <Content Include="Views\CommentThreadsControl\Edit.cshtml" />
     <Content Include="Views\CommentThreadsControl\Index.cshtml" />
+    <Content Include="Views\Home\Overall.cshtml" />
+    <Content Include="Views\Home\FileBased.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
