@@ -99,11 +99,13 @@ namespace makemesmarter.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "CommentId,JoinedComments,Status,ThreadCount,IsUseful,CumlativeLikes,FileType,FilePath,SentimentValue,PrAuthorId,PullRequestId")] CommentThread commentThread)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,CommentId,JoinedComments,Status,ThreadCount,IsUseful,CumlativeLikes,FileType,FilePath,SentimentValue,PrAuthorId,PullRequestId")] CommentThread commentThread)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(commentThread).State = EntityState.Modified;
+                var comment = db.CommentThreads.Find(commentThread.Id);
+                comment.commentCategory = commentThread.commentCategory;
+                db.Entry(comment).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

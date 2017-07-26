@@ -57,6 +57,14 @@ namespace makemesmarter.Controllers
             return View("Index");
         }
 
+        public ActionResult CommentsCategoryDistibution()
+        {
+            ViewData["Title"] = "Code-Review Analytics : Comments Categories";
+            ViewData["ChartType"] = "Column";
+            ViewBag.ChartTitle = "Category Distribution of Comments";
+            ViewBag.DataPoints = JsonConvert.SerializeObject(DataService.GetCommentCategoryColumns(db.CommentThreads.Take(150).ToList()), _jsonSetting);
+            return View("Index");
+        }
 
         // GET: Home/Details/5
         public ActionResult Details(string id)
@@ -166,6 +174,18 @@ namespace makemesmarter.Controllers
             return resultString.ToString();
         }
 
+        public async Task<string> GetCodeSnippit()
+        {
+            var codeurl = "https://msasg.visualstudio.com/DefaultCollection/24a0501b-d131-45af-ae52-27db9291efd4/_api/_versioncontrol/itemContentJson?__v=5&repositoryId=6f42952e-cc40-4536-8d16-bf74780cb9bf&path=%2Fprivate%2Ffrontend%2FBingTestUIFramework%2FAgents%2FAnswers%2FTech%2FTechThresholdHelp.cs&version=GC99b67df4474700b4fe142793e280c0d9eecb172d&maxContentLength=5242880&includeBinaryContent=true&splitContentIntoLines=false";
+            using (var wc = new WebDownload())
+            {
+                var json = wc.DownloadString(codeurl);
+                return json;
+            }
+
+            return string.Empty;
+        }
+
         public async Task<string> SendMail()
         {
             
@@ -178,11 +198,13 @@ namespace makemesmarter.Controllers
                 new Tuple<string, string>("namratar@microsoft.com", "namrata ramkrishna"),
                 new Tuple<string, string>("ashikum@microsoft.com", "ashish kumar"),
                 new Tuple<string, string>("amoagarw@microsoft.com", "amol agarwal"),
+                new Tuple<string, string>("meaga@microsoft.com", "meghana agarwal"),
             };
 
             var pendingList = db.CommentThreads.Where(x => x.Status.Equals("pending") || x.Status.Equals("active")).ToList();
             var pendingListByauthor = pendingList.GroupBy(x => x.PrAuthorId);
             var content = string.Empty;
+            var count = 0;
             foreach (var pendingComment in pendingListByauthor)
             {
                 if(whiteListedmailAddressList.Where(x => x.Item1.Contains(pendingComment.Key)).ToList().Count() > 0)
@@ -195,6 +217,7 @@ namespace makemesmarter.Controllers
                     content = MailContentCreator.CreatePendingCommentResponse(pendingComment.ToList());
                     await SendEmail(listmail, "Pending CR comments", content);
                 }
+                count++;
             }
 
             this.Response.StatusCode = (int)HttpStatusCode.OK;
@@ -206,7 +229,7 @@ namespace makemesmarter.Controllers
             var client = new SendGridClient("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");
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("noreply@azure.com", "CodeFlow Stalker"),
+                From = new EmailAddress("noreply@BingUXDevTeam.com", "Visual Studio Online"),
                 Subject = subject,
                 HtmlContent = mailContent
             };

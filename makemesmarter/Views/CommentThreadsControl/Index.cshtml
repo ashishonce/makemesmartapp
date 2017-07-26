@@ -1,12 +1,15 @@
 ﻿@model IEnumerable<makemesmarter.Models.CommentThread>
 
 @{
-    ViewBag.Title = "All Comments";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>All Comments</h2>
+<h2>Index</h2>
 
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="table">
     <tr>
         <th>
@@ -37,10 +40,19 @@
             @Html.DisplayNameFor(model => model.SentimentValue)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PullRequestId)
+            @Html.DisplayNameFor(model => model.CommentInitiator)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.initiatorCommentLength)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.commentCategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrAuthorId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PullRequestId)
         </th>
         <th></th>
     </tr>
@@ -75,15 +87,24 @@
             @Html.DisplayFor(modelItem => item.SentimentValue)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PullRequestId)
+            @Html.DisplayFor(modelItem => item.CommentInitiator)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.initiatorCommentLength)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.commentCategory)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            @Html.DisplayFor(modelItem => item.PrAuthorId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PullRequestId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>
 }

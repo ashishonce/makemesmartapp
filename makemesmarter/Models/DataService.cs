@@ -87,6 +87,41 @@ namespace makemesmarter.Models
             return _dataPoints;
         }
 
+        public static List<DataPoint> GetCommentCategoryColumns(List<CommentThread> commentThreadList)
+        {
+            
+            var statusBySortedList = commentThreadList.GroupBy(g => g.commentCategory).Select(t => new { count = t.Count(), key = t.Key });
+
+            double y = 50;
+            string label = "";
+
+            var _dataPoints = new List<DataPoint>();
+            var count = 0;
+            foreach (var g in statusBySortedList)
+            {
+                if (g.key == "Random")
+                {
+                    continue;
+                }
+                count += g.count;
+            }
+
+            foreach (var item in statusBySortedList)
+            {
+                if (item.key == "Random")
+                {
+                    continue;
+                }
+
+                y = item.count;
+                label = item.key;
+
+                _dataPoints.Add(new DataPoint(y, label));
+            }
+
+            return _dataPoints;
+        }
+
         public static List<DataPoint> GetRandomDataForCategoryAxis(int count)
 		{
 			double y = 50;
