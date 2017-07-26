@@ -119,27 +119,28 @@ namespace makemesmarter.Controllers
         public async Task<ActionResult> GetReviewerScore(string fileType)
         {
             IList<DisplayReviewScore> model = new List<DisplayReviewScore>();
-            if (!string.IsNullOrWhiteSpace(fileType) && !fileType.Equals("default"))
+            if (!string.IsNullOrWhiteSpace(fileType) && !fileType.Equals("All"))
                 {
                 var comentsByFileType = db.CommentThreads.Where(x => x.FileType.Equals(fileType)).ToList();
                 var reviewersByUsefulCommentsAndSentimentsValue = comentsByFileType.GroupBy(o => o.CommentInitiator)
-                    .Select(g => new { reviewer = g.Key, totalUseful = g.Sum(i => i.IsUseful), totalSentiment = g.Sum(i => i.SentimentValue) });
+                    .Select(g => new { reviewer = g.Key, totalUseful = g.Sum(i => i.IsUseful), totalSentiment = g.Sum(i => i.SentimentValue) , count = g.Count() });
                 var count = reviewersByUsefulCommentsAndSentimentsValue.Count();
                 foreach (var group in reviewersByUsefulCommentsAndSentimentsValue)
                 {
-                    var score = ((group.totalUseful * 10 + group.totalSentiment * 2) / 12)/ count;
-                    model.Add(new DisplayReviewScore { Alias = group.reviewer, Score = score });
+                    var score = ((group.totalUseful * 10 + group.totalSentiment * 2) / 12)/ group.count;
+                    model.Add(new DisplayReviewScore { Alias = group.reviewer, Score = Math.Round(score, 2) });
                 }
             }
             else 
             {
                 var reviewersByUsefulCommentsAndSentimentsValue = db.CommentThreads.GroupBy(o => o.CommentInitiator)
-                    .Select(g => new { reviewer = g.Key, totalUseful = g.Sum(i => i.IsUseful), totalSentiment = g.Sum(i => i.SentimentValue) });
+                    .Select(g => new { reviewer = g.Key, totalUseful = g.Sum(i => i.IsUseful), totalSentiment = g.Sum(i => i.SentimentValue) , count = g.Count() });
                 var count = reviewersByUsefulCommentsAndSentimentsValue.Count();
                 foreach (var group in reviewersByUsefulCommentsAndSentimentsValue)
                 {
-                    var score = ((group.totalUseful * 10 + group.totalSentiment * 2) / 12) / count;
-                    model.Add(new DisplayReviewScore { Alias = group.reviewer, Score = score });
+                    var score = ((group.totalUseful * 10 + group.totalSentiment * 2) / 12) / group.count ;
+                    
+                    model.Add(new DisplayReviewScore { Alias = group.reviewer, Score = Math.Round(score, 2) });
                 }
             }
 

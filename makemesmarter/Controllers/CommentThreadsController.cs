@@ -164,7 +164,7 @@ namespace makemesmarter.Controllers
                     resultModel = resultModel.Where(x => x.PrAuthorId.Contains(author)).ToList();
                 }
 
-                resultModel.ForEach(x => x.JoinedComments = x.JoinedComments.Replace(text, "<strong>"+ text + "</strong>"));
+                resultModel.ForEach(x => x.JoinedComments = x.JoinedComments.Replace(text, "<span style='background-color:yellow'>"+ text + "</span>"));
                 ViewData["Model"] = resultModel;
                 return View("CommentSearch");
             }

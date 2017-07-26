@@ -27,16 +27,14 @@ namespace makemesmarter.Helpers
                 weightforStatus = 0.5;
             }
 
-            var commonStatusWeight = CommentAnalyser.StatusWeight(commentStatus);
-
-            //weight += CommentAnalyser.NumUpVotesWeight(numUpVotes);
-            weight += (int)weightforStatus*100;
+            weight += CommentAnalyser.NumUpVotesWeight(numUpVotes)* 20;
+            weight += CommentAnalyser.StatusWeight(commentStatus) * 15;
 
             //weight += CommentAnalyser.CodeChangeWeight(IsCodeChange);
-            weight += CommentAnalyser.CategoryWeight(commentCategory);
-            weight += CommentAnalyser.ThreadLengthWeight(threadLength);
+            weight += CommentAnalyser.CategoryWeight(commentCategory) * 10;
+            weight += CommentAnalyser.ThreadLengthWeight(threadLength) * 5;
 
-            var weightedAverage = (weight * 100 / 3 )/ 70 ;
+            var weightedAverage = (weight * 100 )/ 385 ;
             return weightedAverage;
         }
 

@@ -23,7 +23,11 @@ namespace makemesmarter.Controllers
         public ActionResult Index()
         {
             ViewData["Title"] = "Code-Review Analytics";
-            AddChartLinks();
+            //AddChartLinks();
+            ViewData["Title"] = "Code-Review Analytics : Comments OverAll";
+            ViewData["ChartType"] = "Pie";
+            ViewBag.ChartTitle = "Comment OverAll Distribution";
+            ViewBag.DataPoints = JsonConvert.SerializeObject(DataService.GetCommentOverAllPie(db.CommentThreads), _jsonSetting);
             return View(db.Users.ToList());
         }
 
@@ -39,8 +43,7 @@ namespace makemesmarter.Controllers
         {
             ViewData["Title"] = "Code-Review Analytics : Comments OverAll";
             ViewData["ChartType"] = "Pie";
-            ViewBag.ChartTitle = "Comment OverAll Distribution";
-            AddChartLinks();
+            ViewBag.ChartTitle = "OverAll Distribution of Comments";
             ViewBag.DataPoints = JsonConvert.SerializeObject(DataService.GetCommentOverAllPie(db.CommentThreads), _jsonSetting);
             return View("Index");
         }
@@ -49,8 +52,7 @@ namespace makemesmarter.Controllers
         {
             ViewData["Title"] = "Code-Review Analytics : Comments File Base";
             ViewData["ChartType"] = "Pie";
-            ViewBag.ChartTitle = "Comments File Base";
-            AddChartLinks();
+            ViewBag.ChartTitle = "File Based Distribution of Comments";
             ViewBag.DataPoints = JsonConvert.SerializeObject(DataService.GetCommentByFileTypePie(db.CommentThreads), _jsonSetting);
             return View("Index");
         }

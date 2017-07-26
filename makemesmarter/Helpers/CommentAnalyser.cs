@@ -15,13 +15,13 @@ namespace makemesmarter.Helpers
     {
         public static int NumUpVotesWeight(int numUpVotes)
         {
-            if (numUpVotes > 10)
+            if (numUpVotes > 1)
             {
-                return 70;
+                return 9;
             }
-            else if (numUpVotes > 0 && numUpVotes < 10)
+            else if (numUpVotes == 1)
             {
-                return numUpVotes + 60;
+                return 5;
             }
             else
             {
@@ -33,19 +33,19 @@ namespace makemesmarter.Helpers
         {
             if (status == CommentStatus.Fixed || status == CommentStatus.Closed)
             {
-                return 60;
+                return 6;
             }
             else if (status == CommentStatus.Pending)
             {
-                return 56;
+                return 4;
             }
             else if (status == CommentStatus.Active)
             {
-                return 54;
+                return 2;
             }
             else if (status == CommentStatus.WontFix)
             {
-                return -20;
+                return 0;
             }
             else
             {
@@ -69,35 +69,31 @@ namespace makemesmarter.Helpers
         {
             if (category == CommentCategory.Defect)
             {
-                return 40;
+                return 9;
             }
             else if (category == CommentCategory.Design)
             {
-                return 39;
+                return 8;
             }
             else if (category == CommentCategory.Logical)
             {
-                return 38;
+                return 7;
             }
             else if (category == CommentCategory.SolutionApproach || category == CommentCategory.APICalls)
             {
-                return 37;
+                return 4;
             }
             else if (category == CommentCategory.Localization)
             {
-                return 36;
+                return 3;
             }
             else if (category == CommentCategory.Style)
             {
-                return 35;
+                return 2;
             }
-            else if (category == CommentCategory.CodeHygiene || category == CommentCategory.Formatting)
+            else if (category == CommentCategory.CodeHygiene || category == CommentCategory.Formatting || category == CommentCategory.Documentation)
             {
-                return 34;
-            }
-            else if (category == CommentCategory.None ||  category == CommentCategory.Documentation)
-            {
-                return 10;
+                return 1;
             }
             else
             {
@@ -109,16 +105,14 @@ namespace makemesmarter.Helpers
         {
             if (threadLength > 4)
             {
-                return 30;
+                return 5;
             }
-            else if (threadLength > 0 && threadLength < 4)
+            else if (threadLength > 1 && threadLength < 4)
             {
-                return threadLength + 20;
+                return threadLength;
             }
-            else
-            {
-                return 0;
-            }
+
+            return 0;
         }
 
         public static string GetLUISCategory(string queryString, IList<string> entities)
