@@ -360,6 +360,8 @@
     <Content Include="Views\ChartTypes\StackedColumn100.cshtml" />
     <Content Include="Views\ChartTypes\StepArea.cshtml" />
     <Content Include="Views\ChartTypes\StepLine.cshtml" />
+    <Content Include="Views\Home\Overall.cshtml" />
+    <Content Include="Views\Home\FileBased.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

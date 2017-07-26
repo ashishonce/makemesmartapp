@@ -28,3 +28,10 @@ table td, table th{
     margin:20px;
     padding:8px;
 }
+
+.frames
+{
+    float: left;
+     width:500px;
+     padding: 25px 25px 25px 25px;
+}

@@ -45,7 +45,7 @@ namespace makemesmarter.Controllers
             ViewData["ChartType"] = "Pie";
             ViewBag.ChartTitle = "OverAll Distribution of Comments";
             ViewBag.DataPoints = JsonConvert.SerializeObject(DataService.GetCommentOverAllPie(db.CommentThreads), _jsonSetting);
-            return View("Index");
+            return View("Overall");
         }
 
         public ActionResult CommentsByFileType()
@@ -54,7 +54,7 @@ namespace makemesmarter.Controllers
             ViewData["ChartType"] = "Pie";
             ViewBag.ChartTitle = "File Based Distribution of Comments";
             ViewBag.DataPoints = JsonConvert.SerializeObject(DataService.GetCommentByFileTypePie(db.CommentThreads), _jsonSetting);
-            return View("Index");
+            return View("FileBased");
         }
 
 
